@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+.contact-box{
+    width:50%;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.contact-box input,
+.contact-box textarea{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.contact-box button{
+    width:100%;
+    padding:12px;
+    background:#0077b6;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.contact-box button:hover{
+    background:#005f8d;
+}
+
+#message{
+    color:green;
+    text-align:center;
+    margin-top:15px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <center>
+
+<img src="images/contact.jpg"
+
+style="width:70%;border-radius:15px;">
+
+</center>
+
+<br>
+
+<h2>Contact Health Department</h2>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="monitoring.html">Monitoring</a>
+<a href="alerts.html">Alerts</a>
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+<section class="dashboard">
+
+<h1 style="text-align:center;">
+Report a Health Issue
+</h1>
+
+<div class="contact-box">
+
+<form id="contactForm">
+
+<input type="text" placeholder="Full Name" required>
+
+<input type="email" placeholder="Email Address" required>
+
+<input type="text" placeholder="Village Name" required>
+
+<textarea rows="5" placeholder="Describe the issue..." required></textarea>
+
+<button type="submit">
+Submit Report
+</button>
+
+</form>
+
+<p id="message"></p>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 Smart Community Health Monitoring System
+</p>
+
+</footer>
+
+<script>
+
+document.getElementById("contactForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+document.getElementById("message").innerHTML =
+"✅ Your report has been submitted successfully. Our health team will contact you soon.";
+
+this.reset();
+
+});
+
+</script>
+
+</body>
+</html>

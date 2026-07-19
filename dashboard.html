@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Health Monitoring Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+    <img src="images/dashboard.jpg"
+style="width:100%;height:350px;object-fit:cover;">
+
+<h2>Health Monitoring Dashboard</h2>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="monitoring.html">Monitoring</a>
+<a href="alerts.html">Alerts</a>
+<a href="contact.html">Contact</a>
+
+</nav>
+
+</header>
+
+<section class="dashboard">
+
+<h1 style="text-align:center;margin-bottom:30px;">
+Community Health Dashboard
+</h1>
+
+<div class="stats">
+
+<div class="box">
+<h2>275</h2>
+<p>Total Patients</p>
+</div>
+
+<div class="box">
+<h2>42</h2>
+<p>Villages Covered</p>
+</div>
+
+<div class="box">
+<h2>8</h2>
+<p>Active Alerts</p>
+</div>
+
+<div class="box">
+<h2>96%</h2>
+<p>Safe Water Supply</p>
+</div>
+
+</div>
+
+</section>
+
+<section style="width:90%;margin:auto;">
+
+<h2 style="text-align:center;margin:40px 0;">
+Disease Cases
+</h2>
+
+<canvas id="diseaseChart"></canvas>
+
+</section>
+
+<section style="width:90%;margin:auto;margin-top:60px;">
+
+<h2 style="text-align:center;">
+Water Quality Index
+</h2>
+
+<canvas id="waterChart"></canvas>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 Smart Community Health Monitoring System
+</p>
+
+</footer>
+
+<script>
+
+const diseaseChart = new Chart(document.getElementById("diseaseChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Cholera","Typhoid","Dysentery","Hepatitis A"],
+
+datasets:[{
+
+label:"Number of Cases",
+
+data:[45,62,28,15],
+
+backgroundColor:[
+"#0077b6",
+"#00b4d8",
+"#90e0ef",
+"#48cae4"
+]
+
+}]
+
+}
+
+});
+
+const waterChart = new Chart(document.getElementById("waterChart"),{
+
+type:"line",
+
+data:{
+
+labels:["Jan","Feb","Mar","Apr","May","Jun"],
+
+datasets:[{
+
+label:"Water Quality (%)",
+
+data:[92,88,84,79,86,94],
+
+borderColor:"#0077b6",
+
+fill:false,
+
+tension:0.3
+
+}]
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>
