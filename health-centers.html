@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Health Centers & Resource Router | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Infrastructure Filter & Search Component */
+        .search-control-wrapper { display: flex; gap: 16px; max-width: 700px; margin: 0 auto 40px auto; }
+        .search-input-field { flex: 1; padding: 12px 20px; background: var(--bg-surface-solid); border: 1px solid var(--border-glass); border-radius: var(--radius-md); color: white; font-family: var(--font-primary); font-size: 0.9rem; }
+        .search-input-field:focus { outline: none; border-color: var(--clr-primary); }
+
+        /* Directory Split Layout Grid */
+        .directory-split-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: start; }
+        .centers-cards-stack { display: flex; flex-direction: column; gap: 20px; }
+        
+        /* Clinic Availability Profile Card */
+        .medical-center-card { padding: 24px; display: flex; flex-direction: column; gap: 16px; position: relative; }
+        .card-header-flex { display: flex; justify-content: space-between; align-items: flex-start; }
+        .center-identity h3 { font-size: 1.2rem; font-weight: 800; color: white; }
+        .center-identity p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+        
+        .distance-pill { background: rgba(0, 229, 255, 0.1); color: var(--clr-primary); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+        
+        .resource-status-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-glass); text-align: center; }
+        .resource-node .val { font-size: 1.1rem; font-weight: 800; display: block; }
+        .resource-node .val.available { color: var(--clr-success); }
+        .resource-node .val.critical { color: var(--clr-danger); }
+        .resource-node .lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+
+        /* Route Telemetry Matrix Panel */
+        .routing-telemetry-panel { padding: 32px; position: sticky; top: 100px; text-align: center; }
+        .map-mock-placeholder { height: 200px; background: #070b14; border-radius: var(--radius-md); position: relative; overflow: hidden; border: 1px solid var(--border-glass); margin-bottom: 20px; }
+        .map-image-layer { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+        
+        .route-itinerary-stepper { text-align: left; display: flex; flex-direction: column; gap: 16px; position: relative; margin-top: 12px; }
+        .route-itinerary-stepper::before { content: ''; position: absolute; left: 9px; top: 4px; bottom: 4px; width: 2px; background: var(--border-glass); }
+        .itinerary-step { display: flex; gap: 16px; font-size: 0.8rem; line-height: 1.4; color: var(--text-muted); position: relative; }
+        .itinerary-step i { color: var(--clr-primary); background: var(--bg-base); padding: 2px; z-index: 2; }
+        .itinerary-step strong { color: white; }
+
+        @media (max-width: 992px) {
+            .directory-split-grid { grid-template-columns: 1fr; }
+            .routing-telemetry-panel { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header App Bar -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Medical Logistics Engine</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="dashboard.html" class="btn btn-secondary">Command Hub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Viewport Context -->
+    <main class="container section">
+        
+        <div class="text-center">
+            <span class="distance-pill" style="margin-bottom: 8px; font-size: 0.8rem;"><i class="fas fa-hospital-alt"></i> Public Healthcare Directory</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px;">Emergency Response & Nearby Health Centers</h1>
+            <div class="underline mx-auto"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 24px auto; font-size: 0.95rem;">
+                Locate critical municipal treatment centers, monitor live bed allocations, and map response vectors instantly.
+            </p>
+        </div>
+
+        <!-- Integrated Diagnostic Search Filter Row -->
+        <div class="search-control-wrapper">
+            <input type="text" id="clinicSearchField" class="search-input-field" placeholder="Search by hospital identity code or municipal sector..." onkeyup="filterHealthcareDirectory()">
+            <button class="btn btn-primary"><i class="fas fa-search"></i> Query Directory</button>
+        </div>
+
+        <div class="directory-split-grid">
+            <!-- Active Cards Directory Stack Stack -->
+            <section class="centers-cards-stack" id="healthcareDirectoryStack">
+                
+                <!-- Facility 1 -->
+                <div class="glass-panel medical-center-card" data-name="district medical hospital cluster sector 4">
+                    <div class="card-header-flex">
+                        <div class="center-identity">
+                            <h3>District Medical Hospital (Cluster Hub)</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> Sector 4 Corridor East, Yamuna Basin Zone</p>
+                        </div>
+                        <span class="distance-pill">1.4 km Nearest</span>
+                    </div>
+                    
+                    <div class="resource-status-row">
+                        <div class="resource-node">
+                            <span class="val critical">4 / 50</span>
+                            <span class="lbl">Outbreak Beds Open</span>
+                        </div>
+                        <div class="resource-node">
+                            <span class="val available">420 vials</span>
+                            <span class="lbl">ORT Fluids Vol</span>
+                        </div>
+                        <div class="resource-node">
+                            <span class="val available">Active</span>
+                            <span class="lbl">Epidemic Taskforce</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="calculateRouteVector('District Medical Hospital', '1.4 km', ['Head North-West on Sector 4 Main Road toward Intake Channel.', 'Turn right at the municipal treatment plant checkpoint.', 'Arrive at District Medical Hospital entry terminal on the left.'])">
+                        <i class="fas fa-route"></i> Initialize Strategic Transit Route
+                    </button>
+                </div>
+
+                <!-- Facility 2 -->
+                <div class="glass-panel medical-center-card" data-name="sector 9 community health center clinic">
+                    <div class="card-header-flex">
+                        <div class="center-identity">
+                            <h3>Sector 9 Community Health Clinic</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> Ward Block B, Metro Junction West</p>
+                        </div>
+                        <span class="distance-pill">4.8 km</span>
+                    </div>
+                    
+                    <div class="resource-status-row">
+                        <div class="resource-node">
+                            <span class="val available">18 / 25</span>
+                            <span class="lbl">Outbreak Beds Open</span>
+                        </div>
+                        <div class="resource-node">
+                            <span class="val available">850 vials</span>
+                            <span class="lbl">ORT Fluids Vol</span>
+                        </div>
+                        <div class="resource-node">
+                            <span class="val critical">Standby</span>
+                            <span class="lbl">Epidemic Taskforce</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="calculateRouteVector('Sector 9 Clinic', '4.8 km', ['Head South toward Metro Junction Ring Road.', 'Merge onto Bypass Expressway running west for 3.2km.', 'Take Exit 9B toward Ward Block B infrastructure grids.'])">
+                        <i class="fas fa-route"></i> Initialize Strategic Transit Route
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- Active Map Positioning Routing Side Container Box -->
+            <section class="glass-panel routing-telemetry-panel" id="routingTelemetryPanel">
+                <h3 style="font-size: 1.1rem; font-weight: 700; text-align: left; margin-bottom: 16px;">
+                    <i class="fas fa-compass text-primary"></i> Live Navigation Overlay
+                </h3>
+                
+                <div class="map-mock-placeholder">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80" alt="Simulated Grid Trajectory Route" class="map-image-layer">
+                </div>
+
+                <!-- Dynamic Step Vector Target View -->
+                <div id="routeBufferState">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); padding: 20px 0;">
+                        Select a target facility location cell to trace step-by-step route coordinates.
+                    </p>
+                </div>
+
+                <div id="routeRealizedBlock" style="display: none; flex-direction: column; gap: 12px; text-align: left;">
+                    <h4 id="targetFacilityLabel" style="font-size: 0.95rem; font-weight: 800; color: var(--clr-primary);">Target Location</h4>
+                    <span id="targetDistanceLabel" style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 8px;">Distance Matrix: 0.0 km</span>
+                    
+                    <div class="route-itinerary-stepper" id="itineraryStepperContainer">
+                        <!-- Filled Programmatically -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- UI State Switching Scripts -->
+    <script>
+        // Light/Dark Theme Engine Configuration Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', targetTheme);
+            document.querySelector('#themeToggle i').className = targetTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Live Client Directory Text Search Filter Subsystem
+        function filterHealthcareDirectory() {
+            const input = document.getElementById('clinicSearchField').value.toLowerCase();
+            const cards = document.querySelectorAll('.medical-center-card');
+            
+            cards.forEach(card => {
+                const targetText = card.getAttribute('data-name');
+                if (targetText.includes(input)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Vector Path Routing Trajectory Simulator
+        function calculateRouteVector(facilityName, distance, stepsArray) {
+            document.getElementById('routeBufferState').style.display = 'none';
+            
+            const realizedBlock = document.getElementById('routeRealizedBlock');
+            realizedBlock.style.display = 'flex';
+            
+            document.getElementById('targetFacilityLabel').innerText = facilityName;
+            document.getElementById('targetDistanceLabel').innerText = `Estimated Distance: ${distance} • Optimization Route Found`;
+
+            const stepper = document.getElementById('itineraryStepperContainer');
+            stepper.innerHTML = ''; // Wipe trace buffer
+
+            stepsArray.forEach((step, index) => {
+                const stepNode = document.createElement('div');
+                stepNode.className = "itinerary-step";
+                stepNode.innerHTML = `<i class="fas fa-circle-dot"></i> <span>Step ${index + 1}: ${step}</span>`;
+                stepper.appendChild(stepNode);
+            });
+
+            // Smooth viewport layout shift tracking logic on mobile footprint resolutions
+            if (window.innerWidth <= 992) {
+                document.getElementById('routingTelemetryPanel').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

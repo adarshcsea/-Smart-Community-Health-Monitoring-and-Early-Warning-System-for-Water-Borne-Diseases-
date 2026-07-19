@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Command Center | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 40px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.85rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+        .btn-success { background: var(--clr-success); color: var(--text-inverse); }
+        .btn-danger { background: var(--clr-danger); color: white; }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Command Center Split Architecture */
+        .command-split-layout { display: grid; grid-template-columns: 1.7fr 1.3fr; gap: 24px; margin-top: 32px; }
+        .panel-container { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+        .panel-header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 12px; }
+        .panel-header-row h2 { font-size: 1.15rem; font-weight: 800; }
+
+        /* Citizen Reports Verification Triage Stack */
+        .triage-queue-stack { display: flex; flex-direction: column; gap: 16px; }
+        .triage-ticket-card { border: 1px solid var(--border-glass); padding: 16px; border-radius: var(--radius-md); background: rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 10px; transition: var(--transition-smooth); }
+        .triage-ticket-card:hover { border-color: rgba(255,255,255,0.15); }
+        .ticket-meta-flex { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }
+        
+        .ticket-severity-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+        .ticket-severity-dot.high { background: var(--clr-danger); box-shadow: 0 0 6px var(--clr-danger); }
+        .ticket-severity-dot.medium { background: var(--clr-warning); box-shadow: 0 0 6px var(--clr-warning); }
+
+        .ticket-action-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.03); padding-top: 10px; }
+
+        /* Resource Optimization Matrix */
+        .resource-inventory-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; }
+        .resource-inventory-table th { padding: 10px; color: var(--text-muted); border-bottom: 1px solid var(--border-glass); }
+        .resource-inventory-table td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        
+        .stock-level-bar-container { width: 100px; height: 6px; background: rgba(0,0,0,0.3); border-radius: 10px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 8px; }
+        .stock-level-fill { height: 100%; }
+
+        /* Deployment Field Control Panel */
+        .deployment-control-box { background: rgba(0,0,0,0.2); border: 1px dashed var(--border-glass); padding: 16px; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 12px; }
+
+        @media (max-width: 1200px) {
+            .command-split-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header App Bar -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Government Secure Gateway</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <span style="font-size: 0.75rem; font-weight: 700; background: rgba(0,229,255,0.1); color: var(--clr-primary); padding: 4px 8px; border-radius: 4px;"><i class="fas fa-lock"></i> SECURE / ADMIN</span>
+                    <a href="index.html" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Command Workspace Frame -->
+    <main class="container section">
+        
+        <div>
+            <span class="gradient-text" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Administrative Control Center</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; margin-top: 4px;">National Resource Allocation & Triage Portal</h1>
+            <div class="underline"></div>
+        </div>
+
+        <div class="command-split-layout">
+            
+            <!-- Workspace Block 1: Pending Citizen Incidents Triage Queue -->
+            <section class="glass-panel panel-container">
+                <div class="panel-header-row">
+                    <h2>Pending Citizen Contamination Reports</h2>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);" id="triageCountLabel">2 Incoming Tickets</span>
+                </div>
+
+                <div class="triage-queue-stack" id="triageQueueStack">
+                    <!-- Ticket 1 -->
+                    <div class="triage-ticket-card" id="ticket-1082">
+                        <div class="ticket-meta-flex">
+                            <span>Ticket ID: <strong>JS-2026-X8B92</strong></span>
+                            <span>Received: 12 mins ago</span>
+                        </div>
+                        <h4 style="color: white; font-weight: 700;"><i class="ticket-severity-dot high"></i> Ward 12, Piped Utility Intake Grid</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+                            Citizen report submitted indicating distinct rust-colored precipitate and strong chemical odor profiles manifesting concurrently across 4 household lines.
+                        </p>
+                        <div class="ticket-action-row">
+                            <button class="btn btn-secondary" onclick="dismissTicket('ticket-1082')">Decline</button>
+                            <button class="btn btn-primary" onclick="approveAndRemediate('ticket-1082', 'Ward 12')"><i class="fas fa-shipping-fast"></i> Approve & Deploy Resources</button>
+                        </div>
+                    </div>
+
+                    <!-- Ticket 2 -->
+                    <div class="triage-ticket-card" id="ticket-1083">
+                        <div class="ticket-meta-flex">
+                            <span>Ticket ID: <strong>JS-2026-N4A11</strong></span>
+                            <span>Received: 45 mins ago</span>
+                        </div>
+                        <h4 style="color: white; font-weight: 700;"><i class="ticket-severity-dot medium"></i> Sector 9 Catchment Basin</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;">
+                            Slight turbidity drift noticed following Monsoonal river swell. Minor visual scaling complained by local sub-ward associations.
+                        </p>
+                        <div class="ticket-action-row">
+                            <button class="btn btn-secondary" onclick="dismissTicket('ticket-1083')">Dismiss</button>
+                            <button class="btn btn-primary" onclick="approveAndRemediate('ticket-1083', 'Sector 9')"><i class="fas fa-shipping-fast"></i> Route to Inspection</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workspace Block 2: Medical Logistics Supply Chain Matrix -->
+            <section class="glass-panel panel-container">
+                <div class="panel-header-row">
+                    <h2>Medical Countermeasures & Supplies</h2>
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="alert('Requisition order transmitted to Central Ministry Store.')"><i class="fas fa-plus"></i> Reorder Inventory</button>
+                </div>
+
+                <table class="resource-inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Countermeasure Group</th>
+                            <th>Stock Buffer Status</th>
+                            <th>Regional Allocation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oral Rehydration Salts (ORS)</td>
+                            <td>
+                                <div class="stock-level-bar-container"><div class="stock-level-fill" style="width: 85%; background: var(--clr-success);"></div></div>
+                                <strong>85%</strong>
+                            </td>
+                            <td>Optimal Supply</td>
+                        </tr>
+                        <tr>
+                            <td>Ciprofloxacin Antibiotic Stocks</td>
+                            <td>
+                                <div class="stock-level-bar-container"><div class="stock-level-fill" style="width: 32%; background: var(--clr-danger);"></div></div>
+                                <strong class="text-danger">32%</strong>
+                            </td>
+                            <td>Critical Shortage</td>
+                        </tr>
+                        <tr>
+                            <td>Rapid Diagnostic Antigen Kits</td>
+                            <td>
+                                <div class="stock-level-bar-container"><div class="stock-level-fill" style="width: 60%; background: var(--clr-warning);"></div></div>
+                                <strong>60%</strong>
+                            </td>
+                            <td>Monitoring Baseline</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="panel-header-row" style="margin-top: 12px;">
+                    <h2>Crisis Deployment & Intervention Control</h2>
+                </div>
+
+                <div class="deployment-control-box">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Task Force Mobilization Matrix</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                        Select an active regional contingency protocol to coordinate response teams directly on the field.
+                    </p>
+                    <button class="btn btn-danger" style="justify-content: center; width: 100%; padding: 10px 0;" onclick="triggerGlobalDeploymentAlert()">
+                        <i class="fas fa-radiation"></i> Broadcast Mass Municipal Boiling Order Directive
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- UI Interaction Scripts -->
+    <script>
+        // Light/Dark Theme Engine Configuration Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', targetTheme);
+            document.querySelector('#themeToggle i').className = targetTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Triage Card Removal Animation Loop
+        function dismissTicket(ticketID) {
+            const ticket = document.getElementById(ticketID);
+            ticket.style.transform = 'scale(0.95)';
+            ticket.style.opacity = '0';
+            ticket.style.transition = 'all 0.4s ease-out';
+            
+            setTimeout(() => {
+                ticket.remove();
+                updateTicketCounter();
+            }, 400);
+        }
+
+        // Remediate Deployment Routine Trigger Loop
+        function approveAndRemediate(ticketID, zoneLabel) {
+            alert(`CONTINGENCY ALLOCATION ACTIVE: Response teams mobilized to ${zoneLabel}. Notification broadcasts updated.`);
+            dismissTicket(ticketID);
+        }
+
+        function updateTicketCounter() {
+            const remaining = document.querySelectorAll('.triage-ticket-card').length;
+            document.getElementById('triageCountLabel').innerText = `${remaining} Incoming Tickets Active`;
+        }
+
+        function triggerGlobalDeploymentAlert() {
+            const confirmation = confirm("CRITICAL: You are about to initiate an encrypted, widespread warning across the regional broadcast grid. Proceed?");
+            if (confirmation) {
+                alert("Cryptographic notification signatures matching NHM schemas have been successfully updated.");
+            }
+        }
+    </script>
+</body>
+</html>

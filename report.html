@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Contamination Reporting | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Reporting Engine Core Split Layout */
+        .report-split-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; margin-top: 32px; align-items: start; }
+        .form-panel-wrapper { padding: 32px; }
+        .form-two-column { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .form-field-span-2 { grid-column: span 2; }
+        
+        .form-label { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; display: block; }
+        .form-input-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+        .form-input-control:focus { outline: none; border-color: var(--clr-primary); }
+
+        /* Photo Upload Dropzone Element */
+        .upload-dropzone-container {
+            border: 2px dashed var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0,0,0,0.15);
+            transition: var(--transition-smooth);
+        }
+        .upload-dropzone-container:hover { border-color: var(--clr-primary); background: rgba(0, 229, 255, 0.02); }
+        .upload-dropzone-container i { font-size: 2rem; color: var(--text-muted); margin-bottom: 12px; }
+
+        /* Dynamic Status Tracking Tracker */
+        .status-tracking-sidebar { padding: 32px; display: flex; flex-direction: column; gap: 24px; position: sticky; top: 100px; }
+        
+        /* Progress Pipeline Graphic */
+        .status-pipeline-stepper { display: flex; flex-direction: column; gap: 24px; text-align: left; margin-top: 16px; position: relative; }
+        .status-pipeline-stepper::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: var(--border-glass); }
+        
+        .stepper-node-flex { display: flex; gap: 16px; align-items: flex-start; position: relative; z-index: 2; }
+        .stepper-indicator-circle { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-surface-solid); border: 2px solid var(--border-glass); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--text-muted); font-weight: 700; transition: var(--transition-smooth); }
+        .stepper-node-flex.active .stepper-indicator-circle { border-color: var(--clr-primary); color: var(--clr-primary); box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+        .stepper-node-flex.completed .stepper-indicator-circle { background: var(--clr-success); border-color: var(--clr-success); color: var(--text-inverse); }
+        
+        .stepper-details h4 { font-size: 0.9rem; font-weight: 700; }
+        .stepper-details p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Cryptographic Code Output */
+        .report-receipt-box { background: rgba(0,0,0,0.2); border: 1px dashed var(--border-glass); padding: 16px; border-radius: var(--radius-md); font-family: monospace; font-size: 0.85rem; word-break: break-all; margin-top: 8px; }
+
+        @media (max-width: 992px) {
+            .report-split-grid { grid-template-columns: 1fr; }
+            .status-tracking-sidebar { position: static; }
+        }
+        @media (max-width: 640px) {
+            .form-two-column { grid-template-columns: 1fr; }
+            .form-field-span-2 { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Menu -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Citizen Crowdsourcing Node</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="index.html" class="btn btn-secondary">Exit Terminal</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container section">
+        
+        <div class="text-center">
+            <span class="form-label" style="text-transform: uppercase; letter-spacing: 2px; color: var(--clr-accent); font-weight: 700;">Incident Reporting Subsystem</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px;">Public Water Contamination Reporting</h1>
+            <div class="underline mx-auto"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 32px auto; font-size: 0.95rem;">
+                Help safeguard your community. File immediate reports regarding altered water aesthetics, off-flavor indicators, or regional symptom surges.
+            </p>
+        </div>
+
+        <div class="report-split-grid">
+            <!-- Citizen Incident Intake Form Block -->
+            <section class="glass-panel form-panel-wrapper">
+                <h3 style="font-size: 1.1rem; margin-bottom: 24px; font-weight: 700;"><i class="fas fa-bullhorn text-accent"></i> File Contamination Log</h3>
+                
+                <form id="citizenReportForm" onsubmit="processReportSubmission(event)">
+                    <div class="form-two-column">
+                        <!-- Location -->
+                        <div class="input-wrapper">
+                            <label for="reportLocation" class="form-label">Incident Geographic Location / Ward</label>
+                            <input type="text" id="reportLocation" class="form-input-control" placeholder="e.g. Ward 12, Near Sector A Reservoir" required>
+                        </div>
+                        <!-- Water Source -->
+                        <div class="input-wrapper">
+                            <label for="reportSource" class="form-label">Target Contaminated Source Type</label>
+                            <select id="reportSource" class="form-input-control" style="background: #0f1422;">
+                                <option value="tap">Municipal Tap Line</option>
+                                <option value="well">Community Borewell / Tubewell</option>
+                                <option value="river">Natural Stream / Pond System</option>
+                            </select>
+                        </div>
+                        <!-- Severity -->
+                        <div class="input-wrapper">
+                            <label for="reportSeverity" class="form-label">Perceived Hazard Severity Level</label>
+                            <select id="reportSeverity" class="form-input-control" style="background: #0f1422;">
+                                <option value="low">Low (Altered color / odor only)</option>
+                                <option value="medium">Medium (Turbid water, multiple complaints)</option>
+                                <option value="high">High (Suspected sewage mixing / illness surge)</option>
+                            </select>
+                        </div>
+                        <!-- Symptoms Observed -->
+                        <div class="input-wrapper">
+                            <label for="reportSymptoms" class="form-label">Co-occurring Community Symptoms</label>
+                            <input type="text" id="reportSymptoms" class="form-input-control" placeholder="e.g. None, Nausea, Diarrhea">
+                        </div>
+                        <!-- Description -->
+                        <div class="input-wrapper form-field-span-2">
+                            <label for="reportDesc" class="form-label">Detailed Analytical Description</label>
+                            <textarea id="reportDesc" class="form-input-control" rows="4" placeholder="Provide distinct physical indicators (e.g. chemical sheen, rust precipitate, sewage odor, etc.)" required></textarea>
+                        </div>
+                        <!-- Photo Upload UI Dropzone -->
+                        <div class="form-field-span-2">
+                            <label class="form-label">Evidentiary Field Imagery Upload</label>
+                            <div class="upload-dropzone-container" onclick="triggerSimulatedUpload()">
+                                <i class="fas fa-cloud-upload-alt" id="uploadIcon"></i>
+                                <h4 id="uploadTitle">Drag & drop or tap to select image array</h4>
+                                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">PNG, JPG metadata preserved for automated GIS cross-referencing</p>
+                                <input type="file" id="hiddenFileInput" style="display: none;" accept="image/*" onchange="handleFileSelected()">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 28px; width: 100%; justify-content: center; background: var(--clr-primary-gradient); color: var(--text-inverse);">
+                        <i class="fas fa-paper-plane"></i> Sign & Transmit Encrypted Incident Report
+                    </button>
+                </form>
+            </section>
+
+            <!-- Realtime Status Matrix Tracking Display -->
+            <section class="glass-panel status-tracking-sidebar">
+                <h3 style="font-size: 1.1rem; font-weight: 700;"><i class="fas fa-satellite-dish text-primary"></i> Transmission Status Tracker</h3>
+                <div class="underline"></div>
+
+                <div id="trackingIdleBlock">
+                    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+                        No active generation logs detected. Fill the left telemetry panel to initialize the transmission routing sequence.
+                    </p>
+                </div>
+
+                <!-- Submission Generated UI State -->
+                <div id="trackingActiveBlock" style="display: none; flex-direction: column; gap: 16px;">
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Cryptographic Ticket ID</span>
+                        <div class="report-receipt-box" id="ticketIDPlaceholder">JALSURAKSHA-XXXXX</div>
+                    </div>
+
+                    <!-- Pipeline Process Matrix Flow -->
+                    <div class="status-pipeline-stepper">
+                        <div class="stepper-node-flex completed">
+                            <div class="stepper-indicator-circle"><i class="fas fa-check"></i></div>
+                            <div class="stepper-details">
+                                <h4>Data Transmission Complete</h4>
+                                <p>Ingested via secure protocol channels.</p>
+                            </div>
+                        </div>
+                        <div class="stepper-node-flex active">
+                            <div class="stepper-indicator-circle">2</div>
+                            <div class="stepper-details">
+                                <h4>Municipal Triage Verification</h4>
+                                <p>Assigned to Regional Field Inspection Teams.</p>
+                            </div>
+                        </div>
+                        <div class="stepper-node-flex">
+                            <div class="stepper-indicator-circle">3</div>
+                            <div class="stepper-details">
+                                <h4>Laboratory Assays & Actions</h4>
+                                <p>Preemptive biochemical remediation deployment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- UI State Logistical Scripts -->
+    <script>
+        // Theme Engine Configuration Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Dropzone Interaction Simulator Link
+        function triggerSimulatedUpload() {
+            document.getElementById('hiddenFileInput').click();
+        }
+
+        function handleFileSelected() {
+            const uploadIcon = document.getElementById('uploadIcon');
+            const uploadTitle = document.getElementById('uploadTitle');
+            
+            uploadIcon.className = "fas fa-check-circle";
+            uploadIcon.style.color = "var(--clr-success)";
+            uploadTitle.innerText = "Evidentiary image successfully appended to payload buffer";
+        }
+
+        // Process Transmission Form Script Logic
+        function processReportSubmission(event) {
+            event.preventDefault();
+
+            // Generate cryptographic alphanumeric receipt sequence
+            const cryptoSeed = Math.random().toString(36).substring(2, 10).toUpperCase();
+            const generatedTicket = `JS-2026-${cryptoSeed}`;
+
+            // UI Elements Toggling States
+            document.getElementById('trackingIdleBlock').style.display = 'none';
+            
+            const activeBlock = document.getElementById('trackingActiveBlock');
+            activeBlock.style.display = 'flex';
+            
+            document.getElementById('ticketIDPlaceholder').innerText = generatedTicket;
+
+            // Scroll to tracking widget layout context smoothly on lower footprint resolutions
+            if (window.innerWidth <= 992) {
+                document.getElementById('diagnosticOutputPanel').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            alert(`Incident reported. Cryptographic Tracking ID generated: ${generatedTicket}`);
+        }
+    </script>
+</body>
+</html>

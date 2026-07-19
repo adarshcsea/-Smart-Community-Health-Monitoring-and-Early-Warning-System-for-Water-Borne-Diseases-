@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Early Warning Broadcast Matrix | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Filter Tab Bar System */
+        .filter-tabs-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+        .tab-filter-btn { padding: 10px 20px; border-radius: 50px; background: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); color: var(--text-muted); cursor: pointer; font-family: var(--font-primary); font-weight: 600; font-size: 0.85rem; transition: var(--transition-smooth); }
+        .tab-filter-btn:hover, .tab-filter-btn.active { border-color: var(--clr-primary); color: var(--clr-primary); background: rgba(0, 229, 255, 0.05); }
+
+        /* Master Alert Grid System */
+        .alerts-layout-grid { display: grid; grid-template-columns: 1.9fr 1.1fr; gap: 32px; align-items: start; }
+        .alerts-stream-stack { display: flex; flex-direction: column; gap: 20px; }
+        
+        /* Modern Structural Alert Card */
+        .alert-broadcast-card { padding: 24px; border-left: 5px solid transparent; position: relative; display: flex; flex-direction: column; gap: 12px; transition: var(--transition-smooth); }
+        .alert-broadcast-card.severity-critical { border-left-color: var(--clr-danger); }
+        .alert-broadcast-card.severity-high { border-left-color: var(--clr-accent); }
+        .alert-broadcast-card.severity-moderate { border-left-color: var(--clr-warning); }
+        .alert-broadcast-card.severity-low { border-left-color: var(--clr-success); }
+        
+        .card-meta-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-muted); }
+        .severity-badge { padding: 4px 10px; border-radius: 4px; font-weight: 800; text-transform: uppercase; font-size: 0.7rem; }
+        .severity-badge.critical { background: rgba(255,23,68,0.15); color: var(--clr-danger); }
+        .severity-badge.high { background: rgba(255,64,129,0.15); color: var(--clr-accent); }
+        .severity-badge.moderate { background: rgba(255,234,0,0.15); color: var(--clr-warning); }
+        
+        .alert-broadcast-card h3 { font-size: 1.15rem; font-weight: 700; color: white; }
+        .alert-broadcast-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+        
+        .action-protocol-strip { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: var(--clr-primary); background: rgba(0,229,255,0.03); padding: 8px 12px; border-radius: var(--radius-md); border: 1px dashed rgba(0,229,255,0.1); }
+
+        /* Notification Center Simulation Sidebar */
+        .notification-simulation-panel { padding: 32px; text-align: center; }
+        
+        /* Mobile Device Frame Mockup */
+        .phone-frame-mock { width: 100%; max-width: 260px; height: 440px; border: 12px solid #1e293b; border-radius: 36px; margin: 24px auto; background: #070b14; position: relative; overflow: hidden; box-shadow: var(--shadow-main); }
+        .phone-screen-content { padding: 16px; display: flex; flex-direction: column; gap: 12px; height: 100%; padding-top: 32px; }
+        .phone-status-bar { position: absolute; top: 0; left: 0; right: 0; height: 24px; background: rgba(0,0,0,0.4); display: flex; justify-content: space-between; padding: 4px 16px; font-size: 0.6rem; color: var(--text-muted); }
+        
+        /* Push Notification Graphic Card */
+        .push-notification-bubble { background: rgba(255,255,255,0.08); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; text-align: left; font-size: 0.7rem; box-shadow: 0 4px 12px rgba(0,0,0,0.5); animation: dropNotification 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+        .push-header { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 2px; color: var(--clr-primary); }
+        
+        @keyframes dropNotification { 0% { transform: translateY(-40px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+
+        @media (max-width: 992px) {
+            .alerts-layout-grid { grid-template-columns: 1fr; }
+            .notification-simulation-panel { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Section -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Early Warning Dispatch</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="dashboard.html" class="btn btn-secondary">Command Hub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Context -->
+    <main class="container section">
+        
+        <div class="text-center">
+            <span class="severity-badge critical" style="margin-bottom: 8px;"><i class="fas fa-broadcast-tower"></i> Live Broadcast Node</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px;">Active Early Warnings & Advisories</h1>
+            <div class="underline mx-auto"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 32px auto; font-size: 0.95rem;">
+                Review real-time alerts automatically compiled by the predictive matrix core regarding public water assets.
+            </p>
+        </div>
+
+        <!-- Severity Filter Tab Selection Buttons -->
+        <div class="filter-tabs-container">
+            <button class="tab-filter-btn active" onclick="filterAlertStream('all')">All Messages</button>
+            <button class="tab-filter-btn" onclick="filterAlertStream('critical')">Critical Hazards</button>
+            <button class="tab-filter-btn" onclick="filterAlertStream('high')">High Probability Risks</button>
+            <button class="tab-filter-btn" onclick="filterAlertStream('moderate')">Standard Advisories</button>
+        </div>
+
+        <div class="alerts-layout-grid">
+            <!-- Active Stream Stack Grid Box -->
+            <section class="alerts-stream-stack" id="alertsStreamStack">
+                
+                <!-- Card Item 1 -->
+                <div class="glass-panel alert-broadcast-card severity-critical" data-severity="critical">
+                    <div class="card-meta-row">
+                        <span>Ref ID: JS-ALERT-9942</span>
+                        <span class="severity-badge critical"><i class="fas fa-biohazard"></i> Critical Severity</span>
+                    </div>
+                    <h3>E. coli Contamination Flagged in Yamuna Basin (Sector 4)</h3>
+                    <p>
+                        Continuous multi-parametric telemetry sensors recorded a sudden drop in the localized free chlorine index alongside positive biochemical test results. High hazard of localized diarrheal outbreak propagation.
+                    </p>
+                    <div class="action-protocol-strip">
+                        <i class="fas fa-exclamation-circle text-danger"></i>
+                        <span>Mandatory Directive: Boil municipal tap lines completely prior to any dietary consumption loops.</span>
+                    </div>
+                </div>
+
+                <!-- Card Item 2 -->
+                <div class="glass-panel alert-broadcast-card severity-high" data-severity="high">
+                    <div class="card-meta-row">
+                        <span>Ref ID: JS-ALERT-9811</span>
+                        <span class="severity-badge high"><i class="fas fa-exclamation-triangle"></i> High Probability</span>
+                    </div>
+                    <h3>Turbidity Shift Matrix Spike - Lower Canal Network</h3>
+                    <p>
+                        Recent severe monsoonal rainfall has introduced heavy agricultural runoff displacement fields into the river intake grid. Turbidity parameters have surpassed 18 NTU thresholds.
+                    </p>
+                    <div class="action-protocol-strip">
+                        <i class="fas fa-tools text-primary"></i>
+                        <span>Remediation Strategy: Municipal processing plants have initialized coagulant dosage increases.</span>
+                    </div>
+                </div>
+
+                <!-- Card Item 3 -->
+                <div class="glass-panel alert-broadcast-card severity-moderate" data-severity="moderate">
+                    <div class="card-meta-row">
+                        <span>Ref ID: JS-ALERT-9104</span>
+                        <span class="severity-badge moderate"><i class="fas fa-info-circle"></i> Standard Warning</span>
+                    </div>
+                    <h3>pH Anomaly Variance Vector - Station 9 Pumping Unit</h3>
+                    <p>
+                        Local monitoring nodes noticed a brief baseline dip down to 5.8 pH parameters. Industrial discharge factors are currently being investigated by regional safety inspectors.
+                    </p>
+                    <div class="action-protocol-strip">
+                        <i class="fas fa-shield-alt text-success"></i>
+                        <span>Current Status: System stabilizing. Water utility processing units operating within structural control parameters.</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Notification Push System Simulator Block -->
+            <section class="glass-panel notification-simulation-panel">
+                <h3 style="font-size: 1.1rem; font-weight: 700;"><i class="fas fa-mobile-alt text-primary"></i> Broadcast Simulation Engine</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Test client-side integration alert push models</p>
+                
+                <div class="phone-frame-mock">
+                    <div class="phone-status-bar">
+                        <span>JalSuraksha Mobile</span>
+                        <span>4:03 PM</span>
+                    </div>
+                    <div class="phone-screen-content" id="phoneScreenBuffer">
+                        <!-- Simulated Push Alert Notification Node -->
+                        <div class="push-notification-bubble">
+                            <div class="push-header">
+                                <span><i class="fas fa-shield-virus"></i> JALSURAKSHA AI</span>
+                                <span>Now</span>
+                            </div>
+                            <strong style="display:block; font-size:0.75rem; margin-top:2px; color: white;">CRITICAL ALERT ISSUED</strong>
+                            <p style="color:rgba(255,255,255,0.7); font-size:0.65rem; margin-top:2px; line-height: 1.2;">District 4: High Cholera vector signature computed. Check platform directions.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="triggerSimulatedPushAlert()">
+                    <i class="fas fa-bell"></i> Fire Simulated Mass Notification
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Operational State Interactivity Logic Scripts -->
+    <script>
+        // Theme Engine Configuration Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Broadcast Filter Logic Controller
+        function filterAlertStream(severity) {
+            // Update Active Tab Button Selection UI Matrix
+            const tabs = document.querySelectorAll('.tab-filter-btn');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Toggle Target Visibility Elements
+            const cards = document.querySelectorAll('.alert-broadcast-card');
+            cards.forEach(card => {
+                if (severity === 'all' || card.getAttribute('data-severity') === severity) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Live Push Notification Simulation Script Injector
+        function triggerSimulatedPushAlert() {
+            const buffer = document.getElementById('phoneScreenBuffer');
+            
+            // Construct elements dynamically
+            const newPush = document.createElement('div');
+            newPush.className = "push-notification-bubble";
+            newPush.style.marginTop = "8px";
+            newPush.innerHTML = `
+                <div class="push-header">
+                    <span><i class="fas fa-tint text-accent"></i> MUNICIPAL ALERT</span>
+                    <span>Just Now</span>
+                </div>
+                <strong style="display:block; font-size:0.75rem; margin-top:2px; color:white;">Remediation Active</strong>
+                <p style="color:rgba(255,255,255,0.7); font-size:0.65rem; margin-top:2px; line-height:1.2;">Remediation units deployed to Station 4A. System purification metrics ongoing.</p>
+            `;
+            
+            buffer.appendChild(newPush);
+        }
+    </script>
+</body>
+</html>

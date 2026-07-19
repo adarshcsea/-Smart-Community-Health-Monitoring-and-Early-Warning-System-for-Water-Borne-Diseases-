@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Epidemiological Risk Engine | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        /* Typography */
+        .page-subtitle { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--clr-primary); letter-spacing: 2px; display: block; margin-bottom: 8px; }
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Split Screen Core Grid Layout */
+        .engine-split-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; margin-top: 32px; align-items: start; }
+        
+        /* Form Element Matrix */
+        .input-matrix-form { padding: 32px; }
+        .form-grid-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .input-group-wrapper { display: flex; flex-direction: column; gap: 6px; }
+        .input-group-wrapper.full-width { grid-column: span 2; }
+        .input-group-wrapper label { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
+        
+        .form-control-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+        .form-control-input:focus { outline: none; border-color: var(--clr-primary); box-shadow: 0 0 10px rgba(0,229,255,0.15); }
+        
+        /* Dynamic Assessment Output Sidebar */
+        .output-metrics-panel { padding: 32px; position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px; text-align: center; min-height: 480px; justify-content: center; }
+        
+        /* Beautiful Dynamic Risk Gauge */
+        .gauge-container { width: 180px; height: 180px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; position: relative; background: radial-gradient(circle, var(--bg-surface-solid) 60%, transparent 61%), conic-gradient(var(--clr-success) 0% 100%); transition: background 0.5s ease-out; }
+        .gauge-inner-value { font-size: 2rem; font-weight: 800; display: flex; flex-direction: column; line-height: 1.1; }
+        .gauge-inner-value span { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; }
+
+        .risk-badge-status { padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 0 auto; }
+        .risk-badge-status.low { background: rgba(0, 230, 118, 0.15); color: var(--clr-success); }
+        .risk-badge-status.medium { background: rgba(255, 234, 0, 0.15); color: var(--clr-warning); }
+        .risk-badge-status.high { background: rgba(255, 23, 68, 0.15); color: var(--clr-danger); }
+
+        /* Future Timeline Vector */
+        .projection-timeline { border-left: 2px dashed var(--border-glass); padding-left: 20px; text-align: left; display: none; margin-top: 16px; }
+        .timeline-step-mini { margin-bottom: 16px; position: relative; }
+        .timeline-step-mini::before { content: ''; position: absolute; left: -27px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--clr-primary); }
+        .timeline-step-mini h4 { font-size: 0.85rem; font-weight: 700; }
+        .timeline-step-mini p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Processing Skeleton Loading Layer */
+        .skeleton-loader-overlay { display: none; flex-direction: column; gap: 16px; padding: 40px 0; }
+        .skeleton-line { height: 16px; background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%); background-size: 200% 100%; animation: skeletonShimmer 1.5s infinite; border-radius: 4px; }
+        @keyframes skeletonShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .engine-split-grid { grid-template-columns: 1fr; }
+            .output-metrics-panel { position: static; min-height: auto; }
+        }
+        @media (max-width: 640px) {
+            .form-grid-layout { grid-template-columns: 1fr; }
+            .input-group-wrapper.full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Epidemiological Core Engine</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="#" class="nav-item active">Risk Engine</a>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="dashboard.html" class="btn btn-secondary">Command Center</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Section Viewport -->
+    <main class="container section">
+        
+        <div class="text-center">
+            <span class="page-subtitle">Neural Predictive Analytics</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px;">Outbreak Probability Projection Matrix</h1>
+            <div class="underline mx-auto"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 32px auto; font-size: 0.95rem;">
+                Input physical environmental metrics, water parameters, and clinical diagnostic trends below to compute regional threat propagation curves.
+            </p>
+        </div>
+
+        <div class="engine-split-grid">
+            <!-- Form Parameter Configuration Input Block -->
+            <section class="glass-panel input-matrix-form">
+                <h3 style="font-size: 1.1rem; margin-bottom: 20px; font-weight: 700;"><i class="fas fa-sliders-h text-primary"></i> Vector Ingestion Parameters</h3>
+                
+                <form id="predictionInputForm" onsubmit="executePredictiveInference(event)">
+                    <div class="form-grid-layout">
+                        <!-- Param 1 -->
+                        <div class="input-group-wrapper">
+                            <label for="locationBASIN">Target Geographic Basin</label>
+                            <select id="locationBASIN" class="form-control-input" style="background: #0f1422;">
+                                <option value="Yamuna">Yamuna River Basin (Sector 4)</option>
+                                <option value="Ganges">Lower Ganges Plain Corridor</option>
+                                <option value="Krishna">Krishna Delta Irrigation Block</option>
+                                <option value="Cauvery">Cauvery Catchment Zone C</option>
+                            </select>
+                        </div>
+                        <!-- Param 2 -->
+                        <div class="input-group-wrapper">
+                            <label for="waterSource">Water Ingestion Node Type</label>
+                            <select id="waterSource" class="form-control-input" style="background: #0f1422;">
+                                <option value="municipal">Municipal Piped Utility Main</option>
+                                <option value="artesian">Open Community Tube-wells</option>
+                                <option value="surface">Surface Water Storage Reservoir</option>
+                            </select>
+                        </div>
+                        <!-- Param 3 -->
+                        <div class="input-group-wrapper">
+                            <label for="populationDensity">Population Density Index</label>
+                            <input type="number" id="populationDensity" class="form-control-input" placeholder="e.g. 12500" value="8500" required>
+                        </div>
+                        <!-- Param 4 -->
+                        <div class="input-group-wrapper">
+                            <label for="rainfallCoeff">Recent Rainfall Offset (mm)</label>
+                            <input type="number" id="rainfallCoeff" class="form-control-input" placeholder="e.g. 45" value="12" required>
+                        </div>
+                        <!-- Param 5 -->
+                        <div class="input-group-wrapper">
+                            <label for="ambientTemp">Mean Ambient Temp (°C)</label>
+                            <input type="number" id="ambientTemp" class="form-control-input" placeholder="e.g. 32" value="30" required>
+                        </div>
+                        <!-- Param 6 -->
+                        <div class="input-group-wrapper">
+                            <label for="wqiIndex">Computed Water Quality Index (WQI)</label>
+                            <input type="number" id="wqiIndex" class="form-control-input" placeholder="Range 0 - 100" value="78" min="0" max="100" required>
+                        </div>
+                        <!-- Param 7 -->
+                        <div class="input-group-wrapper full-width">
+                            <label for="clinicalSymptoms">Observed Community Symptoms (Multi-Select Signature)</label>
+                            <select id="clinicalSymptoms" class="form-control-input" style="background: #0f1422; height: auto;" multiple size="3">
+                                <option value="acute-diarrhea" selected>Acute Watery Diarrhea / Dehydration</option>
+                                <option value="febrile-nausea">High Febrile State with Bilious Nausea</option>
+                                <option value="icteric-fatigue">Icteric Sclera (Jaundice Indicator) & Exhaustion</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 24px; width: 100%; justify-content: center; padding: 12px 0;">
+                        <i class="fas fa-brain"></i> Compute Epidemiological Inference Model
+                    </button>
+                </form>
+            </section>
+
+            <!-- Diagnostic Inference Output Panel Box -->
+            <section class="glass-panel output-metrics-panel" id="outputMetricsPanel">
+                <!-- Static Initial Core State Visual placeholder -->
+                <div id="initialStatePlaceholder">
+                    <i class="fas fa-calculator" style="font-size: 3rem; color: var(--text-muted); opacity: 0.3; margin-bottom: 16px;"></i>
+                    <h4 style="font-weight: 700;">Awaiting Parameter Vector Stream</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 260px; margin: 8px auto 0 auto;">
+                        Click the processing button to calculate risk stratification models.
+                    </p>
+                </div>
+
+                <!-- Async Processing Skeleton Element -->
+                <div class="skeleton-loader-overlay" id="skeletonLoader">
+                    <div class="skeleton-line" style="width: 40%; margin: 0 auto;"></div>
+                    <div class="skeleton-line" style="height: 120px; width: 120px; border-radius: 50%; margin: 12px auto;"></div>
+                    <div class="skeleton-line" style="width: 80%;"></div>
+                    <div class="skeleton-line" style="width: 90%;"></div>
+                </div>
+
+                <!-- Evaluated Final Live Target Analytics Core -->
+                <div id="realizedOutputBlock" style="display: none; flex-direction: column; gap: 16px;">
+                    <span class="page-subtitle" style="letter-spacing: 1px;">Calculated Vector Output</span>
+                    
+                    <div class="gauge-container" id="riskConicGauge">
+                        <div class="gauge-inner-value">
+                            <span id="gaugeValueNumber">0%</span>
+                            <span>Threat Score</span>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-badge-status" id="riskBadgeElement">Low System Risk</div>
+                    
+                    <p id="riskDiagnosticText" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; padding: 0 10px;">
+                        System parameters operating within standardized seasonal safety limits.
+                    </p>
+                    
+                    <!-- Advanced Strategic Timeline Forecast Grid -->
+                    <div class="projection-timeline" id="projectionTimeline">
+                        <h4 style="font-size: 0.8rem; text-transform: uppercase; margin-bottom: 12px; color: white;">14-Day Vector Forecast Trend</h4>
+                        <div class="timeline-step-mini">
+                            <h4 id="time-t1">Days 1 - 4: Latent Phase</h4>
+                            <p>Pathogen propagation limited by ambient temperature limits.</p>
+                        </div>
+                        <div class="timeline-step-mini">
+                            <h4 id="time-t2">Days 5 - 14: Stabilization Window</h4>
+                            <p>No systemic water utility infrastructure degradation forecasted.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- UI Logistical Core Scripts -->
+    <script>
+        // Light/Dark Config Engine Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', targetTheme);
+            document.querySelector('#themeToggle i').className = targetTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Predictive Inference Mathematical Simulation Logic
+        function executePredictiveInference(event) {
+            event.preventDefault();
+
+            // Dom Navigation Points Toggle States
+            document.getElementById('initialStatePlaceholder').style.display = 'none';
+            document.getElementById('realizedOutputBlock').style.display = 'none';
+            document.getElementById('skeletonLoader').style.display = 'flex';
+
+            // Gather parameters for calculated mapping logic
+            const wqi = parseFloat(document.getElementById('wqiIndex').value);
+            const rain = parseFloat(document.getElementById('rainfallCoeff').value);
+            
+            // Calculate a threat score baseline index
+            let threatScore = 100 - wqi; 
+            if (rain > 30) threatScore += 20; // Add weight for severe rain displacement vectors
+            threatScore = Math.min(Math.max(threatScore, 5), 98); // Lock bounds between 5% and 98%
+
+            setTimeout(() => {
+                // Remove processing layer
+                document.getElementById('skeletonLoader').style.display = 'none';
+                const outputBlock = document.getElementById('realizedOutputBlock');
+                outputBlock.style.display = 'flex';
+
+                // Target Dom Component Update Elements
+                const numElement = document.getElementById('gaugeValueNumber');
+                const badge = document.getElementById('riskBadgeElement');
+                const text = document.getElementById('riskDiagnosticText');
+                const gauge = document.getElementById('riskConicGauge');
+                const timeline = document.getElementById('projectionTimeline');
+
+                numElement.innerText = Math.round(threatScore) + "%";
+
+                // Stratification Category Routing Switch
+                if (threatScore < 35) {
+                    badge.innerText = "Low System Risk";
+                    badge.className = "risk-badge-status low";
+                    text.innerText = "Epidemiological markers show zero structural anomalies. Water system is clean and stable. Maintain routine biochemical monitoring loops.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 60%, transparent 61%), conic-gradient(var(--clr-success) 0% ${threatScore}%, rgba(255,255,255,0.05) ${threatScore}% 100%)`;
+                    timeline.style.display = "none";
+                } else if (threatScore >= 35 && threatScore < 65) {
+                    badge.innerText = "Medium Pre-Incident Risk";
+                    badge.className = "risk-badge-status medium";
+                    text.innerText = "Elevated threat values noted due to a drop in the WQI score. Potential bacterial incubation matrix detected. Chlorination protocols should be verified immediately.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 60%, transparent 61%), conic-gradient(var(--clr-warning) 0% ${threatScore}%, rgba(255,255,255,0.05) ${threatScore}% 100%)`;
+                    
+                    // Populate timeline nodes
+                    document.getElementById('time-t1').innerText = "Days 1 - 5: Ingestion Window";
+                    document.getElementById('time-t2').innerText = "Days 6 - 14: Minor Case Cluster Acceleration";
+                    timeline.style.display = "block";
+                } else {
+                    badge.innerText = "High Outbreak Probability";
+                    badge.className = "risk-badge-status high";
+                    text.innerText = "CRITICAL: The combo of severe rainfall runoff, high population density, and low WQI points indicates a high probability of an active Cholera vector. Notify municipal response teams.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 60%, transparent 61%), conic-gradient(var(--clr-danger) 0% ${threatScore}%, rgba(255,255,255,0.05) ${threatScore}% 100%)`;
+                    
+                    document.getElementById('time-t1').innerText = "Days 1 - 3: Immediate Outbreak Propagation";
+                    document.getElementById('time-t2').innerText = "Days 4 - 14: Systemic Crisis Curve Peak";
+                    timeline.style.display = "block";
+                }
+
+            }, 1200); // Emulate network server latency window
+        }
+    </script>
+</body>
+</html>

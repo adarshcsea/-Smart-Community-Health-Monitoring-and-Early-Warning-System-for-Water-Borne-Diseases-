@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Quality Analysis Engine | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Multi-Parametric Layout Mechanics */
+        .telemetry-split-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 32px; margin-top: 32px; align-items: start; }
+        .input-matrix-panel { padding: 32px; }
+        .form-three-column-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        
+        .input-wrapper { display: flex; flex-direction: column; gap: 6px; }
+        .input-wrapper label { font-size: 0.8rem; font-weight: 600; color: var(--text-main); }
+        .input-field {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.85rem;
+            transition: var(--transition-smooth);
+        }
+        .input-field:focus { outline: none; border-color: var(--clr-primary); }
+
+        /* Diagnostics Display Elements */
+        .diagnostic-output-panel { padding: 32px; min-height: 520px; display: flex; flex-direction: column; gap: 24px; justify-content: center; text-align: center; position: sticky; top: 100px; }
+        
+        /* Modern Dial Gauge Geometry */
+        .gauge-radial-wrapper { width: 170px; height: 170px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; position: relative; background: radial-gradient(circle, var(--bg-surface-solid) 62%, transparent 63%), conic-gradient(var(--clr-success) 0% 100%); transition: background 0.4s ease-out; }
+        .gauge-display-digits { font-size: 2.2rem; font-weight: 800; line-height: 1; display: flex; flex-direction: column; }
+        .gauge-display-digits span { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+        .status-badge-capsule { padding: 6px 14px; border-radius: 50px; font-weight: 700; font-size: 0.8rem; display: inline-block; margin: 0 auto; text-transform: uppercase; }
+        .status-badge-capsule.safe { background: rgba(0, 230, 118, 0.15); color: var(--clr-success); }
+        .status-badge-capsule.moderate { background: rgba(255, 234, 0, 0.15); color: var(--clr-warning); }
+        .status-badge-capsule.unsafe { background: rgba(255, 23, 68, 0.15); color: var(--clr-danger); }
+
+        /* Fluid Micro Progress Bars */
+        .breakdown-progress-box { text-align: left; display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+        .progress-label-flex { display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); }
+        .progress-track-bg { width: 100%; height: 6px; background: rgba(0,0,0,0.3); border-radius: 10px; overflow: hidden; }
+        .progress-fill-fluid { height: 100%; width: 0%; transition: width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
+        /* Shimmer Loading State Map */
+        .loading-shimmer-box { display: none; flex-direction: column; gap: 14px; padding: 30px 0; }
+        .shimmer-element { height: 14px; background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%); background-size: 200% 100%; animation: scanShimmer 1.4s infinite; border-radius: 4px; }
+        @keyframes scanShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Responsive Matrix Breakpoints */
+        @media (max-width: 992px) {
+            .telemetry-split-grid { grid-template-columns: 1fr; }
+            .diagnostic-output-panel { position: static; min-height: auto; }
+        }
+        @media (max-width: 768px) {
+            .form-three-column-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .form-three-column-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Telemetry Ingestion Matrix</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="#" class="nav-item active">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="dashboard.html" class="btn btn-secondary">Terminal Dashboard</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Viewport Context -->
+    <main class="container section">
+        
+        <div class="text-center">
+            <span class="status-badge-capsule safe" style="margin-bottom: 8px;"><i class="fas fa-vial"></i> Laboratory Integration Module</span>
+            <h1 style="font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px;">Physico-Chemical Water Quality Analyzer</h1>
+            <div class="underline mx-auto"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto 32px auto; font-size: 0.95rem;">
+                Input raw chemical properties derived from IoT sensors or laboratory titration assays to evaluate the structural index score.
+            </p>
+        </div>
+
+        <div class="telemetry-split-grid">
+            <!-- Parameter Form Inputs Block -->
+            <section class="glass-panel input-matrix-panel">
+                <h3 style="font-size: 1.1rem; margin-bottom: 24px; font-weight: 700;"><i class="fas fa-microscope text-primary"></i> Analytical Telemetry Matrix</h3>
+                
+                <form id="telemetryDataForm" onsubmit="calculateWaterMetrics(event)">
+                    <div class="form-three-column-grid">
+                        <!-- pH -->
+                        <div class="input-wrapper">
+                            <label for="inputPH">Hydrogen Ion Index (pH)</label>
+                            <input type="number" step="0.01" id="inputPH" class="input-field" value="7.2" min="0" max="14" required>
+                        </div>
+                        <!-- Temp -->
+                        <div class="input-wrapper">
+                            <label for="inputTEMP">Temperature (°C)</label>
+                            <input type="number" step="0.1" id="inputTEMP" class="input-field" value="26.5" required>
+                        </div>
+                        <!-- Turbidity -->
+                        <div class="input-wrapper">
+                            <label for="inputTURB">Turbidity (NTU)</label>
+                            <input type="number" step="0.1" id="inputTURB" class="input-field" value="2.4" required>
+                        </div>
+                        <!-- TDS -->
+                        <div class="input-wrapper">
+                            <label for="inputTDS">Total Dissolved Solids (mg/L)</label>
+                            <input type="number" id="inputTDS" class="input-field" value="220" required>
+                        </div>
+                        <!-- DO -->
+                        <div class="input-wrapper">
+                            <label for="inputDO">Dissolved Oxygen (mg/L)</label>
+                            <input type="number" step="0.1" id="inputDO" class="input-field" value="7.8" required>
+                        </div>
+                        <!-- Nitrate -->
+                        <div class="input-wrapper">
+                            <label for="inputNITRATE">Nitrate Levels (mg/L)</label>
+                            <input type="number" step="0.01" id="inputNITRATE" class="input-field" value="12.5" required>
+                        </div>
+                        <!-- Chlorine -->
+                        <div class="input-wrapper">
+                            <label for="inputCHLORINE">Residual Chlorine (mg/L)</label>
+                            <input type="number" step="0.01" id="inputCHLORINE" class="input-field" value="1.8" required>
+                        </div>
+                        <!-- Bacteria Presence -->
+                        <div class="input-wrapper" style="grid-column: span 2;">
+                            <label for="inputBACTERIA">Biological Pathogen Test Result</label>
+                            <select id="inputBACTERIA" class="input-field" style="background: #0f1422;">
+                                <option value="absent">Coliform / E. coli Count: Absent (0 CFU/100mL)</option>
+                                <option value="present">Coliform / E. coli Count: Detected (>0 CFU/100mL)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="margin-top: 32px; width: 100%; justify-content: center; padding: 12px 0;">
+                        <i class="fas fa-calculator"></i> Run Multi-Parametric Safety Audit
+                    </button>
+                </form>
+            </section>
+
+            <!-- Diagnostic Diagnostics Sidebar Display Output -->
+            <section class="glass-panel diagnostic-output-panel" id="diagnosticOutputPanel">
+                <!-- Initial State Placeholder View -->
+                <div id="formIdlePlaceholder">
+                    <i class="fas fa-tint-slash" style="font-size: 3rem; color: var(--text-muted); opacity: 0.25; margin-bottom: 16px;"></i>
+                    <h4 style="font-weight: 700;">Awaiting Telemetry Ingestion</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 280px; margin: 8px auto 0 auto;">
+                        Run the safety audit to generate the verified Water Quality Index (WQI).
+                    </p>
+                </div>
+
+                <!-- Async Processing Shimmer Layer -->
+                <div class="loading-shimmer-box" id="shimmerLoader">
+                    <div class="shimmer-element" style="width: 50%; margin: 0 auto;"></div>
+                    <div class="shimmer-element" style="height: 120px; width: 120px; border-radius: 50%; margin: 12px auto;"></div>
+                    <div class="shimmer-element" style="width: 85%;"></div>
+                    <div class="shimmer-element" style="width: 70%;"></div>
+                </div>
+
+                <!-- Evaluated System Analytics Display -->
+                <div id="diagnosticsResultBlock" style="display: none; flex-direction: column; gap: 20px;">
+                    <span class="progress-label-flex" style="justify-content: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Ingested Matrix Output</span>
+                    
+                    <div class="gauge-radial-wrapper" id="wqiConicGauge">
+                        <div class="gauge-display-digits">
+                            <span id="wqiNumberText">0</span>
+                            <span>WQI Score</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-badge-capsule" id="wqiStatusBadge">System Safe</div>
+                    
+                    <p id="wqiExplanationText" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; padding: 0 8px;">
+                        Water samples meet all standard safety parameters.
+                    </p>
+                    
+                    <!-- Progress Micro Bars Component -->
+                    <div class="breakdown-progress-box">
+                        <div class="progress-label-flex">
+                            <span>Chemical Purity Factor</span>
+                            <span id="chemicalPercentageLabel">0%</span>
+                        </div>
+                        <div class="progress-track-bg">
+                            <div class="progress-fill-fluid" id="barChemicalFill" style="background: var(--clr-primary);"></div>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-progress-box">
+                        <div class="progress-label-flex">
+                            <span>Biological Safety Margin</span>
+                            <span id="biologicalPercentageLabel">0%</span>
+                        </div>
+                        <div class="progress-track-bg">
+                            <div class="progress-fill-fluid" id="barBiologicalFill" style="background: var(--clr-success);"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- UI Interaction Scripts -->
+    <script>
+        // Light/Dark Config Engine Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', targetTheme);
+            document.querySelector('#themeToggle i').className = targetTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // WQI Analysis Engine Execution Logic
+        function calculateWaterMetrics(event) {
+            event.preventDefault();
+
+            // Dom Navigation Points Toggle States
+            document.getElementById('formIdlePlaceholder').style.display = 'none';
+            document.getElementById('diagnosticsResultBlock').style.display = 'none';
+            document.getElementById('shimmerLoader').style.display = 'flex';
+
+            // Telemetry Parameter Aggregation
+            const ph = parseFloat(document.getElementById('inputPH').value);
+            const turb = parseFloat(document.getElementById('inputTURB').value);
+            const bacteria = document.getElementById('inputBACTERIA').value;
+
+            // Simple Multi-Parametric Ingestion Mathematical Weight Mapping Formula
+            let wqiScore = 95; 
+            
+            // Deduct points for structural anomalies in pH balance
+            if (ph < 6.5 || ph > 8.5) wqiScore -= 25;
+            // Deduct points for turbidity scattering coefficients
+            if (turb > 5.0) wqiScore -= 20;
+            // Immediate critical penalty deduction for positive biological coliform contamination vectors
+            if (bacteria === 'present') wqiScore -= 45;
+
+            wqiScore = Math.min(Math.max(wqiScore, 10), 99); // Safe lock boundaries
+
+            setTimeout(() => {
+                // Remove processing animation layer
+                document.getElementById('shimmerLoader').style.display = 'none';
+                document.getElementById('diagnosticsResultBlock').style.display = 'flex';
+
+                // Target Dom Component Update Elements
+                const scoreText = document.getElementById('wqiNumberText');
+                const badge = document.getElementById('wqiStatusBadge');
+                const explanation = document.getElementById('wqiExplanationText');
+                const gauge = document.getElementById('wqiConicGauge');
+                
+                const chemicalBar = document.getElementById('barChemicalFill');
+                const biologicalBar = document.getElementById('barBiologicalFill');
+                const chemicalLbl = document.getElementById('chemicalPercentageLabel');
+                const biologicalLbl = document.getElementById('biologicalPercentageLabel');
+
+                scoreText.innerText = wqiScore;
+
+                // Stratification Category Logic Routing
+                if (wqiScore >= 80) {
+                    badge.innerText = "Excellent / Safe Baseline";
+                    badge.className = "status-badge-capsule safe";
+                    explanation.innerText = "Excellent chemical and biological telemetry profile. Safe for municipal connection distribution infrastructure loops.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 62%, transparent 63%), conic-gradient(var(--clr-success) 0% ${wqiScore}%, rgba(255,255,255,0.05) ${wqiScore}% 100%)`;
+                    
+                    // Set micro-progress values
+                    chemicalBar.style.width = "94%"; chemicalLbl.innerText = "94%";
+                    biologicalBar.style.width = "98%"; biologicalLbl.innerText = "98%";
+                    biologicalBar.style.background = "var(--clr-success)";
+                } else if (wqiScore >= 50 && wqiScore < 80) {
+                    badge.innerText = "Moderate Risk / Sub-optimal";
+                    badge.className = "status-badge-capsule moderate";
+                    explanation.innerText = "Sub-optimal metrics noted. Increased turbidity or chemical variances flagged. Mild purification processing or mechanical filtration recommended.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 62%, transparent 63%), conic-gradient(var(--clr-warning) 0% ${wqiScore}%, rgba(255,255,255,0.05) ${wqiScore}% 100%)`;
+                    
+                    chemicalBar.style.width = "72%"; chemicalLbl.innerText = "72%";
+                    biologicalBar.style.width = "75%"; biologicalLbl.innerText = "75%";
+                    biologicalBar.style.background = "var(--clr-warning)";
+                } else {
+                    badge.innerText = "CRITICAL / UNSAFE SYSTEM";
+                    badge.className = "status-badge-capsule unsafe";
+                    explanation.innerText = "CRITICAL VIOLATION: Pathogen coliform contamination vector detected or extreme chemical imbalance. Direct biological threat. Do not distribute.";
+                    gauge.style.background = `radial-gradient(circle, var(--bg-surface-solid) 62%, transparent 63%), conic-gradient(var(--clr-danger) 0% ${wqiScore}%, rgba(255,255,255,0.05) ${wqiScore}% 100%)`;
+                    
+                    chemicalBar.style.width = "48%" ; chemicalLbl.innerText = "48%";
+                    biologicalBar.style.width = "15%" ; biologicalLbl.innerText = "15%";
+                    biologicalBar.style.background = "var(--clr-danger)";
+                }
+
+            }, 1000); // Emulate network server latency window
+        }
+    </script>
+</body>
+</html>

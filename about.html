@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | JalSuraksha AI Matrix</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Styles System -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN TOKENS & CORE ENGINE
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 80px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+        .glass-panel:hover { border-color: var(--border-glass-glow); }
+
+        /* Navigation Mechanics */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { max-width: 1280px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.8rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.2rem; }
+        .brand-subtitle { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 32px; }
+        .nav-links { display: flex; align-items: center; gap: 24px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: var(--transition-smooth); cursor: pointer; }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; border: 1px solid transparent; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border-color: var(--border-glass); }
+        .btn-secondary:hover { border-color: var(--clr-primary); }
+
+        /* Typography */
+        .page-title { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+        .section-subtitle { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--clr-primary); letter-spacing: 2px; display: block; margin-bottom: 8px; }
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* About Layout Elements */
+        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 40px; }
+        .vision-img { width: 100%; height: 380px; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); }
+        
+        .architecture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+        .arch-card { padding: 32px; text-align: left; }
+        .arch-card i { font-size: 2.2rem; color: var(--clr-primary); margin-bottom: 20px; }
+        .arch-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .arch-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Alignment Panel */
+        .gov-alignment-section { background: rgba(0, 229, 255, 0.02); padding: 48px; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); display: flex; gap: 32px; align-items: center; margin-top: 60px; }
+        .gov-logos { display: flex; gap: 24px; font-size: 2.5rem; color: var(--text-muted); opacity: 0.7; }
+
+        /* Team Section Layout */
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
+        .team-card { padding: 16px; text-align: center; overflow: hidden; }
+        .team-img-wrapper { width: 100%; height: 220px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; border: 1px solid var(--border-glass); }
+        .team-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .team-card:hover .team-img { transform: scale(1.08); }
+        .team-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .team-card span { font-size: 0.8rem; color: var(--clr-primary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 12px; }
+        .team-socials { display: flex; justify-content: center; gap: 12px; }
+        .team-socials a { color: var(--text-muted); transition: color 0.3s; font-size: 0.95rem; }
+        .team-socials a:hover { color: var(--clr-primary); }
+
+        /* Footer Mechanics */
+        .global-footer { background: #060912; border-top: 1px solid var(--border-glass); padding: 60px 0 30px 0; margin-top: 80px; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
+        .footer-brand-desc { color: var(--text-muted); margin-top: 12px; max-width: 320px; }
+        .footer-links h4 { margin-bottom: 16px; color: white; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--clr-primary); }
+        .footer-bottom { border-top: 1px solid var(--border-glass); padding-top: 20px; display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; }
+
+        .hamburger-menu { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; width: 30px; }
+        .hamburger-menu .bar { width: 100%; height: 2px; background-color: var(--text-main); }
+
+        @media (max-width: 1024px) {
+            .vision-grid, .architecture-grid { grid-template-columns: 1fr; gap: 32px; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .team-grid { grid-template-columns: 1fr; }
+            .gov-alignment-section { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global App Header / Glass Navigation -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Ministry of Health & Jal Shakti Initiative</span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="about.html" class="nav-item active">About</a>
+                    <a href="#" class="nav-item">Dashboard</a>
+                    <a href="#" class="nav-item">Risk Engine</a>
+                    <a href="#" class="nav-item">Water Quality</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle-btn" id="themeToggle" style="background:none; border:none; color:inherit; font-size:1.1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="index.html" class="btn btn-primary">Back to Hub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container section">
+        
+        <!-- Header Section -->
+        <div class="text-center">
+            <span class="section-subtitle">Architectural Genesis</span>
+            <h1 class="page-title">Transforming Public Health through <span class="gradient-text">Predictive Intelligence</span></h1>
+            <div class="underline mx-auto"></div>
+        </div>
+
+        <!-- Vision and Mission Grid -->
+        <section class="vision-grid">
+            <div class="vision-text-content">
+                <h2 style="font-size: 1.8rem; margin-bottom: 16px;">The Challenge We intercept</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    Water-borne epidemics remain a critical challenge for community health security across developing municipal ecosystems. Traditional medical strategies rely on reactive containment frameworks—acting only after patients arrive at localized treatment nodes.
+                </p>
+                <p style="color: var(--text-muted); margin-bottom: 24px;">
+                    <strong>JalSuraksha AI</strong> flips the defensive paradigm. Developed as a cutting-edge technical solution for the <strong>Smart India Hackathon</strong>, our system serves as an early-stage warning grid that merges IoT telemetry with AI engines to prevent outbreaks before they start.
+                </p>
+                <div style="display: flex; gap: 16px;">
+                    <div class="glass-panel" style="padding: 16px; flex: 1;">
+                        <h4 class="text-primary" style="margin-bottom: 4px;"><i class="fas fa-eye"></i> Our Vision</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Zero-outbreak communities via predictive engineering.</p>
+                    </div>
+                    <div class="glass-panel" style="padding: 16px; flex: 1;">
+                        <h4 class="text-accent" style="margin-bottom: 4px;"><i class="fas fa-bullseye"></i> Our Mission</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Empower local administrations with automated diagnostic data.</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Laboratory UI Engineering" class="vision-img">
+            </div>
+        </section>
+
+        <!-- Technical AI Architecture Stack Section -->
+        <section style="margin-top: 80px;">
+            <div class="text-center">
+                <span class="section-subtitle">Core Infrastructure</span>
+                <h2 style="font-size: 2rem; font-weight: 800;">The Three Pillars of the Platform</h2>
+                <div class="underline mx-auto"></div>
+            </div>
+
+            <div class="architecture-grid">
+                <!-- Pillar 1 -->
+                <div class="glass-panel arch-card">
+                    <i class="fas fa-microchip"></i>
+                    <h3>IoT Telemetry Node</h3>
+                    <p>Continuous edge-computing sensor units measuring physical properties: pH fluctuations, high turbidity coefficients, complete dissolved solids (TDS), and residual free chlorine values.</p>
+                </div>
+                <!-- Pillar 2 -->
+                <div class="glass-panel arch-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>Neural Predictive Engine</h3>
+                    <p>Ensemble machine learning algorithms trained on historical regional data, weather variables, and patient ingestion logs to project out specific epidemiological trends 14 days in advance.</p>
+                </div>
+                <!-- Pillar 3 -->
+                <div class="glass-panel arch-card">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h3>Automated Alert Loop</h3>
+                    <p>Enterprise-grade alert protocols that automatically push notifications to municipal water boards, medical clinics, and local citizen phones when indicators cross critical parameters.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government Directive Alignment Panel -->
+        <section class="gov-alignment-section">
+            <div style="flex: 1;">
+                <h3 style="font-size: 1.4rem; margin-bottom: 8px;"><i class="fas fa-landmark text-primary"></i> National Mission Alignment</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">
+                    JalSuraksha AI is architected to align with India's primary health and resource directives. The system maps operational analytics directly onto data schemas approved by the <strong>National Health Mission (NHM)</strong> and the <strong>Jal Jeevan Mission</strong>, supporting efficient government resource allocation.
+                </p>
+            </div>
+            <div class="gov-logos">
+                <i class="fas fa-tint" title="Jal Jeevan Matrix"></i>
+                <i class="fas fa-heartbeat" title="National Health Hub"></i>
+                <i class="fas fa-server" title="Digital India Architecture"></i>
+            </div>
+        </section>
+
+        <!-- SIH Project Team Showcase Grid -->
+        <section style="margin-top: 80px;">
+            <div class="text-center">
+                <span class="section-subtitle">Innovators</span>
+                <h2 style="font-size: 2rem; font-weight: 800;">The Engineering Team</h2>
+                <div class="underline mx-auto"></div>
+            </div>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80" alt="Team Leader" class="team-img">
+                    </div>
+                    <h4>Deeksha Siva Kumar</h4>
+                    <span>Full Stack & AI Lead</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" alt="Hardware Lead" class="team-img">
+                    </div>
+                    <h4>Adarsh Rai</h4>
+                    <span>IoT Systems Architect</span>
+                    <div class="team-socials">
+                        <a href="https://www.linkedin.com/in/adarsh-rai-371a6a412/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/adarshcsea" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" alt="UI Designer" class="team-img">
+                    </div>
+                    <h4>Rohan Mehta</h4>
+                    <span>UI/UX & Frontend Lead</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80" alt="Data Scientist" class="team-img">
+                    </div>
+                    <h4>Anjali Sharma</h4>
+                    <span>Data Operations Specialist</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Platform Footer -->
+    <footer class="global-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="font-weight: 800; color: white; margin-bottom: 12px;">JAL SURAKSHA AI</h3>
+                    <p class="footer-brand-desc">Enterprise intelligence terminal built to intercept water-borne epidemics through advanced real-time diagnostic matrices.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Core Subsystems</h4>
+                    <ul>
+                        <li><a href="#">Analytical Engine</a></li>
+                        <li><a href="#">Telemetry Node Tracker</a></li>
+                        <li><a href="#">Early Response Alert Matrix</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Emergency Resources</h4>
+                    <ul>
+                        <li><a href="#">National Medical Line: 1075</a></li>
+                        <li><a href="#">Jal Shakti Support Desk</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 JalSuraksha AI. Smart India Hackathon Enterprise-Grade System Prototype.</p>
+                <div>
+                    <a href="#" style="color: inherit; text-decoration: none; margin-left: 16px;">Security Framework</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Light/Dark Mode Controller -->
+    <script>
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> JalSuraksha AI | BUILT BY- Dheeksha Siva Kumara </title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style Engine -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Emergency Broadcast Banner -->
+    <div class="emergency-banner" id="emergencyBanner">
+        <div class="banner-content">
+            <span class="pulse-badge"><i class="fas fa-exclamation-triangle"></i> CRITICAL ALERT</span>
+            <p>Elevated Cholera risk index detected in District 4 (Yamuna Basin) due to recent heavy precipitation. Community boiling mandates are active.</p>
+        </div>
+        <button class="close-banner-btn" onclick="document.getElementById('emergencyBanner').style.display='none'"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Global App Header / Glass Navigation -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-title">JalSuraksha AI <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">BUILT BY- Dheeksha Siva Kumara</span>
+                </div>
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item active">Home</a>
+                    <a href="about.html" class="nav-item">About</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                    <div class="nav-dropdown">
+                        <span class="nav-item dropdown-trigger">Portals <i class="fas fa-chevron-down"></i></span>
+                        <div class="dropdown-content">
+                            <a href="report.html"><i class="fas fa-file-medical-alt"></i> Citizen Reporting</a>
+                            <a href="alerts.html"><i class="fas fa-bell"></i> Early Warnings</a>
+                            <a href="health-centers.html"><i class="fas fa-hospital-user"></i> Health Centers</a>
+                            <a href="analytics.html"><i class="fas fa-chart-network"></i> Data Analytics</a>
+                            <a href="government.html"><i class="fas fa-building"></i> Command Center</a>
+                            <a href="awareness.html"><i class="fas fa-book-open"></i> Public Education</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle-btn" id="themeToggle" title="Toggle UI Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="assistant.html" class="btn btn-secondary btn-icon-only" title="AI Health Assistant"><i class="fas fa-robot"></i></a>
+                    <a href="login.html" class="btn btn-primary nav-cta">Access Platform</a>
+                </div>
+            </nav>
+
+            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle Navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="fade-in-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-bg-overlay"></div>
+            <div class="container hero-grid">
+                <div class="hero-text-content">
+                    <div class="badge-container">
+                        <span class="gov-badge"><i class="fas fa-award"></i> SIH 2026 Innovation Flagship</span>
+                    </div>
+                    <h1 class="hero-title animate-text">
+                        Predicting Outbreaks. <br>
+                        <span class="gradient-text">Safeguarding Communities.</span>
+                    </p>
+                    <p class="hero-description">
+                        An advanced epidemiological defense matrix utilizing real-time physico-chemical water telemetry, machine learning predictive vectors, and citizen crowdsourcing to intercept water-borne epidemics before they manifest.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="dashboard.html" class="btn btn-primary btn-lg">Explore Live Analytics <i class="fas fa-arrow-right"></i></a>
+                        <a href="report.html" class="btn btn-outline btn-lg"><i class="fas fa-bullhorn"></i> File Contamination Report</a>
+                    </div>
+                    <!-- Quick Info Widgets Component -->
+                    <div class="hero-widgets">
+                        <div class="mini-widget">
+                            <i class="fas fa-cloud-sun text-accent"></i>
+                            <div class="widget-data">
+                                <span class="widget-label">Regional Weather</span>
+                                <span class="widget-val">31°C • Humid</span>
+                            </div>
+                        </div>
+                        <div class="mini-widget">
+                            <i class="fas fa-tint text-primary"></i>
+                            <div class="widget-data">
+                                <span class="widget-label">Avg Basin WQI</span>
+                                <span class="widget-val text-success">84.2 (Optimal)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual-content">
+                    <div class="glass-hero-card">
+                        <div class="card-header-status">
+                            <span class="status-dot pulsing"></span>
+                            <span class="status-text">AI Core Online - Realtime Vector Tracking</span>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80" alt="Epidemiological Research Visual" class="hero-img">
+                        <div class="floating-data-card top-left animate-float">
+                            <i class="fas fa-virus-slash text-danger"></i>
+                            <div>
+                                <h4>Predictive Accuracy</h4>
+                                <p class="stat-highlight">94.8%</p>
+                            </div>
+                        </div>
+                        <div class="floating-data-card bottom-right animate-float-delayed">
+                            <i class="fas fa-database text-success"></i>
+                            <div>
+                                <h4>Data Ingestion</h4>
+                                <p class="stat-highlight">2.4M/day</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Counter Ribbon -->
+        <section class="stats-ribbon">
+            <div class="container stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper color-1">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="counter" data-target="1482000">0</h3>
+                        <p>Citizens Protected</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper color-2">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="counter" data-target="342">0</h3>
+                        <p>Connected Municipalities</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper color-3">
+                        <i class="fas fa-faucet-drip"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="counter" data-target="8904">0</h3>
+                        <p>Water Sources Monitored</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper color-4">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 class="counter" data-target="91240">0</h3>
+                        <p>AI Interventions Run</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Threat & Heatmap Preview Section -->
+        <section class="section section-dark-accent">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-subtitle">Tactical Oversight</span>
+                    <h2 class="section-title">Active Outbreak Risk Matrix</h2>
+                    <div class="underline mx-auto"></div>
+                    <p class="section-desc">Dynamic geospatial threat visualization mapping vector risks across active community basins.</p>
+                </div>
+
+                <div class="matrix-preview-container glass-panel">
+                    <div class="matrix-sidebar">
+                        <div class="risk-legend">
+                            <h4>Risk Stratification Levels</h4>
+                            <div class="legend-item"><span class="legend-color high"></span> <span>Critical / Immediate Outbreak Vector</span></div>
+                            <div class="legend-item"><span class="legend-color medium"></span> <span>Elevated Pre-Outbreak Metrics</span></div>
+                            <div class="legend-item"><span class="legend-color low"></span> <span>Stable Baseline / Safe System</span></div>
+                        </div>
+                        <hr class="panel-divider">
+                        <div class="active-alerts-list">
+                            <h4>Recent Telemetry Violations</h4>
+                            <div class="alert-mini-item critical">
+                                <span class="time">14 mins ago</span>
+                                <p>High E. coli concentration flagged in Sector B Basin</p>
+                            </div>
+                            <div class="alert-mini-item warning">
+                                <span class="time">1 hr ago</span>
+                                <p>pH dip below 5.8 observed at Central Intake Point 2</p>
+                            </div>
+                        </div>
+                        <a href="analytics.html" class="btn btn-secondary btn-full sm-margin-t">Open Full Spatial Analytics Engine</a>
+                    </div>
+                    <div class="matrix-map-placeholder">
+                        <div class="map-overlay-layer">
+                            <div class="map-pulse-node position-1 high"></div>
+                            <div class="map-pulse-node position-2 medium"></div>
+                            <div class="map-pulse-node position-3 low"></div>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80" alt="Simulated Health Geo Heatmap" class="map-mock-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Procedural Framework / Timeline Section -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-subtitle">System Architecture</span>
+                    <h2 class="section-title">How the Early Warning Matrix Intercepts Threats</h2>
+                    <div class="underline mx-auto"></div>
+                </div>
+
+                <div class="interactive-timeline">
+                    <div class="timeline-line"></div>
+                    
+                    <div class="timeline-node left animate-scroll-fade">
+                        <div class="node-marker">1</div>
+                        <div class="node-card glass-panel">
+                            <span class="node-stage">Phase 01: Telemetry Ingestion</span>
+                            <h3>Continuous Multi-Parametric Sensing</h3>
+                            <p>IoT nodes and citizen sensors capture pH, Turbidity, TDS, and dissolved oxygen parameters directly at the source, streaming variables via high-frequency API endpoints.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node right animate-scroll-fade">
+                        <div class="node-marker">2</div>
+                        <div class="node-card glass-panel">
+                            <span class="node-stage">Phase 02: ML Clustering & Inference</span>
+                            <h3>Artificial Neural Pathogen Forecasting</h3>
+                            <p>Advanced ensemble models map spatial chemical fluctuations against local clinical admission data, identifying predictive signatures up to 14 days before an outbreak occurs.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-node left animate-scroll-fade">
+                        <div class="node-marker">3</div>
+                        <div class="node-card glass-panel">
+                            <span class="node-stage">Phase 03: Automated Early Warnings</span>
+                            <h3>Proactive Local Interception</h3>
+                            <p>System broadcasts encrypted telemetry updates and push notifications to local municipal water boards, medical facilities, and citizens to coordinate preemptive defense lines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Platform Footer -->
+    <footer class="global-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand-column">
+                <div class="logo-brand">
+                    <i class="fas fa-shield-virus logo-icon"></i>
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                </div>
+                <p class="footer-brand-desc">National Health Mission aligned intelligence node designed for structural water transparency and real-time public biological risk isolation.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com/adarshcsea" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/in/adarsh-rai-371a6a412/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/adarshcsea" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-column">
+                <h4>System Architecture</h4>
+                <ul class="footer-list">
+                    <li><a href="dashboard.html">Realtime Dashboard</a></li>
+                    <li><a href="prediction.html">Risk Forecasting</a></li>
+                    <li><a href="water-quality.html">Telemetry Analyzer</a></li>
+                    <li><a href="analytics.html">Advanced Analytics</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-column">
+                <h4>Citizen Portals</h4>
+                <ul class="footer-list">
+                    <li><a href="report.html">Report Contamination</a></li>
+                    <li><a href="health-centers.html">Emergency Clinics</a></li>
+                    <li><a href="awareness.html">Symptom Matrix</a></li>
+                    <li><a href="login.html">Government Login</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-column">
+                <h4>Crisis & Support</h4>
+                <div class="footer-emergency-box">
+                    <span class="lbl">Disaster Help Line</span>
+                    <span class="val"><i class="fas fa-phone-alt"></i> 1077</span>
+                </div>
+                <div class="footer-emergency-box standard-m-t">
+                    <span class="lbl">Women Crisis Response</span>
+                    <span class="val"><i class="fas fa-phone-alt"></i> 1091</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 SAFETY AI. Smart India Hackathon Enterprise Grade Prototype. Ministry of Health & Family Welfare.</p>
+                <div class="footer-legal-links">
+                    <a href="#">Privacy Framework</a>
+                    <a href="#">Security Protocols</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top trigger -->
+    <button class="scroll-top-btn" id="scrollTopBtn"><i class="fas fa-chevron-up"></i></button>
+
+    <!-- App Main Controller Logic -->
+    <script src="main.js"></script>
+</body>
+</html>

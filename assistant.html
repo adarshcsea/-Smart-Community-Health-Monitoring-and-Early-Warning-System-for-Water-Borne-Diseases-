@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Public Health Assistant | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(16px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 40px 0; }
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout */
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 24px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: var(--transition-smooth); }
+        .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+
+        .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
+
+        /* Assistant Workspace Framework Split Layout */
+        .assistant-workspace-layout { display: grid; grid-template-columns: 0.8fr 2.2fr; gap: 24px; margin-top: 24px; max-height: 640px; }
+        
+        /* Sidebar Navigation Queries Panel */
+        .suggestions-sidebar-panel { padding: 24px; display: flex; flex-direction: column; gap: 16px; text-align: left; }
+        .suggestions-sidebar-panel h3 { font-size: 1rem; font-weight: 700; color: white; }
+        
+        .query-tag-button { padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-glass); background: rgba(0,0,0,0.15); font-family: var(--font-primary); font-size: 0.8rem; text-align: left; color: var(--text-muted); cursor: pointer; transition: var(--transition-smooth); line-height: 1.3; }
+        .query-tag-button:hover { border-color: var(--clr-primary); color: var(--clr-primary); background: rgba(0, 229, 255, 0.02); }
+
+        /* Core Conversational Interface Console Box */
+        .conversational-chat-box { height: 600px; display: flex; flex-direction: column; overflow: hidden; }
+        
+        .chat-header-identity-strip { padding: 16px 24px; border-bottom: 1px solid var(--border-glass); display: flex; align-items: center; gap: 12px; }
+        .bot-avatar-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2); color: var(--clr-primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        
+        .messages-viewport-scroll-area { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; background: rgba(0,0,0,0.1); }
+        
+        /* Message Dialogue Bubbles styling */
+        .dialogue-bubble-row { display: flex; gap: 12px; max-width: 80%; }
+        .dialogue-bubble-row.user-node { align-self: flex-end; flex-direction: row-reverse; }
+        .dialogue-bubble-row.bot-node { align-self: flex-start; }
+        
+        .speech-bubble-payload { padding: 14px 18px; border-radius: var(--radius-lg); font-size: 0.9rem; line-height: 1.45; }
+        .dialogue-bubble-row.user-node .speech-bubble-payload { background: var(--clr-primary-gradient); color: var(--text-inverse); border-bottom-right-radius: 4px; font-weight: 500; }
+        .dialogue-bubble-row.bot-node .speech-bubble-payload { background: var(--bg-surface-solid); border: 1px solid var(--border-glass); color: var(--text-main); border-bottom-left-radius: 4px; }
+
+        /* Typing Loader Indicator Animation Vector */
+        .typing-loader-dot-row { display: none; align-self: flex-start; gap: 4px; padding: 12px 18px; border-radius: var(--radius-lg); background: var(--bg-surface-solid); border: 1px solid var(--border-glass); margin-left: 52px; }
+        .typing-dot { width: 6px; height: 6px; background: var(--clr-primary); border-radius: 50%; animation: bouncingDot 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bouncingDot { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* Consolidated Entry Control Footing Input Form */
+        .chat-input-control-footer { padding: 16px 24px; border-top: 1px solid var(--border-glass); display: flex; gap: 12px; background: rgba(0,0,0,0.2); }
+        .chat-text-field { flex: 1; padding: 12px 18px; background: var(--bg-surface-solid); border: 1px solid var(--border-glass); border-radius: var(--radius-md); color: white; font-family: var(--font-primary); font-size: 0.9rem; outline: none; transition: var(--transition-smooth); }
+        .chat-text-field:focus { border-color: var(--clr-primary); }
+
+        @media (max-width: 992px) {
+            .assistant-workspace-layout { grid-template-columns: 1fr; max-height: none; }
+            .suggestions-sidebar-panel { display: none; } /* Hide layout footprint on narrow resolutions to maximize console clarity */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Subsystem -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">Conversational Diagnostic Node</span>
+                </div>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-item">Home</a>
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="prediction.html" class="nav-item">Risk Engine</a>
+                    <a href="water-quality.html" class="nav-item">Water Quality</a>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <a href="index.html" class="btn btn-secondary">Exit Terminal</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Active Frame Workspace Grid -->
+    <main class="container section">
+        
+        <div class="assistant-workspace-layout">
+            
+            <!-- Sidebar Navigation: Curated Query Prompts Tag Cards -->
+            <section class="glass-panel suggestions-sidebar-panel">
+                <h3>Suggested Diagnostic Prompts</h3>
+                <div class="underline" style="margin-bottom: 8px;"></div>
+                
+                <button class="query-tag-button" onclick="injectQuickQuery('How do I correctly interpret the calculated Water Quality Index score values?')">
+                    <i class="fas fa-question text-primary"></i> Interpreting WQI Parameters
+                </button>
+                <button class="query-tag-button" onclick="injectQuickQuery('What are the early diagnostic symptom signatures of a Cholera contamination surge?')">
+                    <i class="fas fa-biohazard text-accent"></i> Cholera Symptom Triggers
+                </button>
+                <button class="query-tag-button" onclick="injectQuickQuery('List standard emergency household decontamination protocols during alerts.')">
+                    <i class="fas fa-shield-virus text-success"></i> Emergency Purification Steps
+                </button>
+            </section>
+
+            <!-- Main Interactive Chat Interface Console Box -->
+            <section class="glass-panel conversational-chat-box">
+                <!-- Identity Strip -->
+                <div class="chat-header-identity-strip">
+                    <div class="bot-avatar-icon"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <h3 style="font-size: 0.95rem; font-weight: 800; color: white;">JalSuraksha Epidemiological Assistant</h3>
+                        <span style="font-size: 0.7rem; color: var(--clr-success); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Integrated Expert Core System</span>
+                    </div>
+                </div>
+
+                <!-- Messages Viewport Scrollable Area -->
+                <div class="messages-viewport-scroll-area" id="chatScrollArea">
+                    <!-- Initial Welcome Bot Bubble -->
+                    <div class="dialogue-bubble-row bot-node">
+                        <div class="bot-avatar-icon"><i class="fas fa-robot"></i></div>
+                        <div class="speech-bubble-payload">
+                            Salutations. I am the JalSuraksha AI operational assistant core. I can map chemical parameter diagnostics, evaluate clinical symptoms, or generate household sterilization protocols. How can I assist your sector tracking parameters today?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Streaming Loader Typing Dot Element -->
+                <div class="typing-loader-dot-row" id="asyncTypingLoader">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+
+                <!-- Input Controller Footer Form -->
+                <form class="chat-input-control-footer" onsubmit="transmitUserMessage(event)">
+                    <input type="text" id="chatInputField" class="chat-text-field" placeholder="Inquire regarding telemetry indicators, WQI variables, or local vector tracking..." autocomplete="off" required>
+                    <button type="submit" class="btn btn-primary" style="padding: 0 24px;"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Operational State Interactivity Logic Scripts -->
+    <script>
+        // Light/Dark Config Engine Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        const scrollArea = document.getElementById('chatScrollArea');
+        const typingLoader = document.getElementById('asyncTypingLoader');
+
+        // Quick Query Injection Interface
+        function injectQuickQuery(promptText) {
+            document.getElementById('chatInputField').value = promptText;
+        }
+
+        // Transmit User Message Lifecycle Loop
+        function transmitUserMessage(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('chatInputField');
+            const query = inputField.value.trim();
+            if (!query) return;
+
+            // 1. Append User Message Bubble
+            appendSpeechBubble(query, 'user-node', null);
+            inputField.value = ''; // Clear text buffer
+            scrollViewport();
+
+            // 2. Trigger Typing Animation Loader
+            typingLoader.style.display = 'flex';
+            scrollViewport();
+
+            // 3. Process Evaluated Response Mock Stream
+            setTimeout(() => {
+                typingLoader.style.display = 'none';
+                const botReply = generateExpertMockResponse(query);
+                appendSpeechBubble(botReply, 'bot-node', '<i class="fas fa-robot"></i>');
+                scrollViewport();
+            }, 1100); // Emulate server evaluation windows
+        }
+
+        // Speech Bubble Assembly Helper Vector
+        function appendSpeechBubble(text, elementClass, optionalAvatarHtml) {
+            const row = document.createElement('div');
+            row.className = `dialogue-bubble-row ${elementClass}`;
+            
+            let avatarMarkup = '';
+            if (optionalAvatarHtml) {
+                avatarMarkup = `<div class="bot-avatar-icon">${optionalAvatarHtml}</div>`;
+            }
+
+            row.innerHTML = `
+                ${avatarMarkup}
+                <div class="speech-bubble-payload">${text}</div>
+            `;
+            scrollArea.appendChild(row);
+        }
+
+        function scrollViewport() {
+            scrollArea.scrollTop = scrollArea.scrollHeight;
+        }
+
+        // Local Rule-Based Dialog Response Matrix Engine
+        function generateExpertMockResponse(userInput) {
+            const text = userInput.toLowerCase();
+
+            if (text.includes('wqi') || text.includes('quality') || text.includes('score')) {
+                return "The verified Water Quality Index (WQI) aggregates physical properties. A value above 80 signifies an optimal baseline suitable for consumption fields. Scores dropping down between 50 and 80 signal sub-optimal chemical variations. Scores descending below 50 indicate critical contamination zones that require closing distribution nodes immediately.";
+            }
+            if (text.includes('cholera') || text.includes('symptom') || text.includes('diarrhea')) {
+                return "Critical: Cholera vectors present with immediate acute watery diarrhea, severe muscle fatigue, and hydration loss signatures. If these symptoms display clusters within your municipal sector block, contact regional health centers instantly and implement strict water safety parameters.";
+            }
+            if (text.includes('decontamination') || text.includes('purification') || text.includes('boil')) {
+                return "Emergency Decontamination Directives: 1. Bring public connection hydration lines to a rolling, high-velocity boil for at least 1 complete minute to disrupt bacterial envelopes. 2. Apply chemical halogenation compounds (3-5mg sodium hypochlorite formulas per liter) if heat sources are unavailable. 3. Secure hydration volumes in hermetic closed glassmorphic vessels.";
+            }
+
+            return "Query ingested into the analysis database node. System indicators show baseline parameters operating cleanly within regional structural frameworks. Specify if you want me to evaluate a specific telemetry vector string.";
+        }
+    </script>
+</body>
+</html>

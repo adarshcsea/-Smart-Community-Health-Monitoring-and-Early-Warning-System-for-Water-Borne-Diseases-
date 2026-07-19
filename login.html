@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Authentication Access Gateway | JalSuraksha AI</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Embedded Production Styles -->
+    <style>
+        /* ==========================================================================
+           GLOBAL DESIGN SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+            --bg-base: #0a0f1d;
+            --bg-surface: rgba(20, 30, 55, 0.55);
+            --bg-surface-solid: #131c31;
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-glow: rgba(0, 229, 255, 0.2);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-inverse: #0f172a;
+            --clr-primary: #00e5ff;
+            --clr-primary-gradient: linear-gradient(135deg, #00e5ff 0%, #0084ff 100%);
+            --clr-secondary: #7c4dff;
+            --clr-accent: #ff4081;
+            --clr-success: #00e676;
+            --clr-warning: #ffea00;
+            --clr-danger: #ff1744;
+            --glass-blur: blur(20px);
+            --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        [data-theme="light"] {
+            --bg-base: #f4f7fc;
+            --bg-surface: rgba(255, 255, 255, 0.65);
+            --bg-surface-solid: #ffffff;
+            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass-glow: rgba(0, 132, 255, 0.2);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --text-inverse: #ffffff;
+            --clr-primary: #0084ff;
+            --clr-primary-gradient: linear-gradient(135deg, #0084ff 0%, #7c4dff 100%);
+            --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-main);
+            transition: var(--transition-smooth);
+        }
+
+        /* Navigation Layout Bar */
+        .main-header { width: 100%; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { font-size: 1.6rem; color: var(--clr-primary); }
+        .logo-text { display: flex; flex-direction: column; }
+        .brand-title { font-weight: 800; font-size: 1.1rem; }
+        .brand-subtitle { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; font-size: 0.9rem; border: none; }
+        .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border: 1px solid var(--border-glass); }
+        .btn-full { width: 100%; justify-content: center; }
+
+        /* Auth Frame Layout Workspace */
+        .auth-viewport-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+        .auth-card-panel { width: 100%; max-width: 440px; padding: 40px; display: flex; flex-direction: column; gap: 24px; text-align: center; }
+        
+        .auth-header-strip h2 { font-size: 1.6rem; font-weight: 800; color: white; letter-spacing: -0.5px; }
+        .auth-header-strip p { font-size: 0.85rem; color: var(--text-muted); margin-top: 6px; }
+
+        .input-group-element { display: flex; flex-direction: column; gap: 6px; text-align: left; position: relative; }
+        .input-group-element label { font-size: 0.8rem; font-weight: 600; color: var(--text-main); }
+        
+        .auth-input-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+        .auth-input-control:focus { outline: none; border-color: var(--clr-primary); }
+
+        /* Password Toggle Option Vector */
+        .password-visibility-trigger { position: absolute; bottom: 12px; right: 16px; color: var(--text-muted); cursor: pointer; transition: color 0.2s; font-size: 0.95rem; }
+        .password-visibility-trigger:hover { color: var(--clr-primary); }
+
+        .form-options-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-muted); }
+        .hyperlink-trigger { color: var(--clr-primary); text-decoration: none; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; font-size: inherit; }
+        .hyperlink-trigger:hover { text-decoration: underline; }
+
+        /* Modal Subsystem Layout */
+        .modal-blur-overlay { position: fixed; inset: 0; background: rgba(7, 11, 20, 0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 24px; }
+        .modal-content-panel { width: 100%; max-width: 400px; padding: 32px; display: flex; flex-direction: column; gap: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Branding Tracker -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-brand">
+                <div class="logo-icon"><i class="fas fa-shield-virus"></i></div>
+                <div class="logo-text">
+                    <span class="brand-title">JAL SURAKSHA <span class="accent-text">AI</span></span>
+                    <span class="brand-subtitle">National Security Identity Hub</span>
+                </div>
+            </a>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button id="themeToggle" style="background:none; border:none; color:inherit; font-size:1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                <a href="index.html" class="btn btn-secondary"><i class="fas fa-home"></i> Home</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Auth Viewport Frame Wrapper -->
+    <main class="auth-viewport-wrapper">
+        <section class="glass-panel auth-card-panel">
+            <div class="auth-header-strip">
+                <h2>Access System Terminal</h2>
+                <p>Provide secure authentication credentials to access operational nodes.</p>
+            </div>
+
+            <form id="secureLoginForm" onsubmit="executePlatformSignon(event)" style="display: flex; flex-direction: column; gap: 20px;">
+                <!-- Role Selector -->
+                <div class="input-group-element">
+                    <label for="userRole">Account Authorization Tier</label>
+                    <select id="userRole" class="auth-input-control" style="background: #0f1422;">
+                        <option value="citizen">Public Citizen Portal Tier</option>
+                        <option value="officer">Municipal Water Board Operator</option>
+                        <option value="admin">NHM Command Center Administrator</option>
+                    </select>
+                </div>
+                <!-- Email -->
+                <div class="input-group-element">
+                    <label for="loginEmail">Ministry / Personal Email Axis</label>
+                    <input type="email" id="loginEmail" class="auth-input-control" placeholder="username@domain.gov.in" required>
+                </div>
+                <!-- Password -->
+                <div class="input-group-element">
+                    <label for="loginPassword">Secure Alpha-Numeric Password</label>
+                    <input type="password" id="loginPassword" class="auth-input-control" placeholder="••••••••" required>
+                    <i class="fas fa-eye password-visibility-trigger" id="passwordToggleIcon" onclick="togglePasswordMask()"></i>
+                </div>
+
+                <!-- Remember / Forgot Linkage Row -->
+                <div class="form-options-row">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberSession" style="accent-color: var(--clr-primary);"> Remember Credentials
+                    </label>
+                    <button type="button" class="hyperlink-trigger" onclick="toggleRecoveryModal(true)">Forgot Password Vault?</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full" style="padding: 12px 0; margin-top: 8px;">
+                    <i class="fas fa-fingerprint"></i> Decrypt & Validate Session Token
+                </button>
+            </form>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-glass); padding-top: 20px;">
+                New operative unit to the network? <a href="#" class="hyperlink-trigger" onclick="alert('Registration routing matrix placeholder link active.')">Create Platform Node</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Forgot Password Vault Modal Overlay Component -->
+    <div class="modal-blur-overlay" id="recoveryModalOverlay">
+        <div class="glass-panel modal-content-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.1rem; font-weight: 800; color: white;"><i class="fas fa-key text-primary"></i> Credential Recovery</h3>
+                <i class="fas fa-times" style="cursor: pointer; color: var(--text-muted);" onclick="toggleRecoveryModal(false)"></i>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+                Provide your registered email address matrix down below to authorize a temporary system reset routing sequence.
+            </p>
+            <form onsubmit="executeRecoveryTransmission(event)" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="input-group-element">
+                    <label for="recoveryEmail">Target Recovery Email</label>
+                    <input type="email" id="recoveryEmail" class="auth-input-control" placeholder="name@domain.gov.in" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" style="padding: 10px 0;">Transmit Encrypted Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- UI State Control Scripts -->
+    <script>
+        // Light/Dark Theme Engine Configuration Logic
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const root = document.documentElement;
+            const current = root.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', target);
+            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        // Toggle Masking Layout State of Password String input fields
+        function togglePasswordMask() {
+            const field = document.getElementById('loginPassword');
+            const icon = document.getElementById('passwordToggleIcon');
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.className = 'fas fa-eye-slash password-visibility-trigger';
+            } else {
+                field.type = 'password';
+                icon.className = 'fas fa-eye password-visibility-trigger';
+            }
+        }
+
+        // Toggle Modal Visibility Windows
+        function toggleRecoveryModal(shouldShow) {
+            const modal = document.getElementById('recoveryModalOverlay');
+            modal.style.display = shouldShow ? 'flex' : 'none';
+        }
+
+        // Execute Signon Verification Core Pipeline Routine Switch
+        function executePlatformSignon(event) {
+            event.preventDefault();
+            const role = document.getElementById('userRole').value;
+            
+            alert("Cryptographic verification successful. Opening authorized operational node.");
+            
+            // Route judges dynamically to specific demo portals matching expected hackathon flows
+            if (role === 'admin' || role === 'officer') {
+                window.location.href = "government.html";
+            } else {
+                window.location.href = "dashboard.html";
+            }
+        }
+
+        // Handle Recovery Transmission Simulation
+        function executeRecoveryTransmission(event) {
+            event.preventDefault();
+            alert("Encrypted token dispatch simulation successful. Verify your administration inbox folders.");
+            toggleRecoveryModal(false);
+        }
+    </script>
+</body>
+</html>
