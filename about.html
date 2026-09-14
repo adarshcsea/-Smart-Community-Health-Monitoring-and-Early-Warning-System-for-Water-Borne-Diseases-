@@ -108,7 +108,7 @@
 
         /* About Layout Elements */
         .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 40px; }
-        .vision-img { width: 100%; height: 380px; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); }
+        .vision-img { width: 100%; height: 380px; object-fit: cover; object-position: center; display: block; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); }
         
         .architecture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
         .arch-card { padding: 32px; text-align: left; }
@@ -124,8 +124,8 @@
         .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
         .team-card { padding: 16px; text-align: center; overflow: hidden; }
         .team-img-wrapper { width: 100%; height: 220px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; border: 1px solid var(--border-glass); }
-        .team-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .team-card:hover .team-img { transform: scale(1.08); }
+        .team-img, .team-img-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s; }
+        .team-card:hover .team-img, .team-card:hover .team-img-wrapper img { transform: scale(1.08); }
         .team-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
         .team-card span { font-size: 0.8rem; color: var(--clr-primary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 12px; }
         .team-socials { display: flex; justify-content: center; gap: 12px; }
@@ -279,7 +279,7 @@
                 <!-- Team Member 1 -->
                 <div class="glass-panel team-card">
                     <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dheksha">
                     </div>
                     <h4>Dheksha</h4>
                     <span>Team Lead</span>
@@ -292,7 +292,7 @@
                 <!-- Team Member 2 -->
                 <div class="glass-panel team-card">
                     <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1789362826413-a8a81f00d67f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789362826413-a8a81f00d67f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chandra Prakash">
                     </div>
                     <h4>Chandra Prakash</h4>
                     <span>Marketing Lead</span>
@@ -305,7 +305,7 @@
                 <!-- Team Member 3 -->
                 <div class="glass-panel team-card">
                     <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1789362886520-55154e57e10f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789362886520-55154e57e10f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Adarsh Rai">
                     </div>
                     <h4>Adarsh Rai</h4>
                     <span>Project Development Lead</span>
@@ -318,7 +318,7 @@
                 <!-- Team Member 4 -->
                 <div class="glass-panel team-card">
                     <div class="team-img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1789363449798-e44b20efd7a8?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789363449798-e44b20efd7a8?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gemini AI">
                     </div>
                     <h4>Gemini AI</h4>
                     <span>Code Generation Agent</span>
@@ -336,44 +336,4 @@
     <footer class="global-footer">
         <div class="container">
             <div class="footer-grid">
-                <div>
-                    <h3 style="font-weight: 800; color: white; margin-bottom: 12px;">JAL SURAKSHA AI</h3>
-                    <p class="footer-brand-desc">Enterprise intelligence terminal built to intercept water-borne epidemics through advanced real-time diagnostic matrices.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Core Subsystems</h4>
-                    <ul>
-                        <li><a href="#">Analytical Engine</a></li>
-                        <li><a href="#">Telemetry Node Tracker</a></li>
-                        <li><a href="#">Early Response Alert Matrix</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Emergency Resources</h4>
-                    <ul>
-                        <li><a href="#">National Medical Line: 1075</a></li>
-                        <li><a href="#">Jal Shakti Support Desk</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 JalSuraksha AI. Smart India Hackathon Enterprise-Grade System Prototype.</p>
-                <div>
-                    <a href="#" style="color: inherit; text-decoration: none; margin-left: 16px;">Security Framework</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Light/Dark Mode Controller -->
-    <script>
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const root = document.documentElement;
-            const current = root.getAttribute('data-theme');
-            const target = current === 'dark' ? 'light' : 'dark';
-            root.setAttribute('data-theme', target);
-            document.querySelector('#themeToggle i').className = target === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-        });
-    </script>
-</body>
-</html>
+                <div
