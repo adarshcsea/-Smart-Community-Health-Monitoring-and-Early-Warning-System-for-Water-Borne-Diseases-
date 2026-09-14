@@ -12,12 +12,6 @@ https://dhekshasivakumar-prog.github.io/-Smart-Community-Health-Monitoring-and-E
 
 ---
 
-## Preview
-
-<img width="100%" alt="Project Preview" src="assets/preview.png">
-
----
-
 ## Features
 
 ### Community Health Monitoring
