@@ -338,4 +338,141 @@
             <div class="gov-logos">
                 <i class="fas fa-tint" title="Jal Jeevan Matrix"></i>
                 <i class="fas fa-heartbeat" title="National Health Hub"></i>
-                <i class="fas fa-server" title
+                <i class="fas fa-server" title="Digital India Architecture"></i>
+            </div>
+        </section>
+
+        <!-- SIH Project Team Showcase Grid -->
+        <section style="margin-top: 80px;">
+            <div class="text-center">
+                <span class="section-subtitle">Innovators</span>
+                <h2 style="font-size: 2rem; font-weight: 800;">The Engineering Team</h2>
+                <div class="underline mx-auto"></div>
+            </div>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dheksha - Team Lead">
+                    </div>
+                    <h4>Dheksha</h4>
+                    <span>Team Lead</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789362826413-a8a81f00d67f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chandra Prakash - Marketing Lead">
+                    </div>
+                    <h4>Chandra Prakash</h4>
+                    <span>Marketing Lead</span>
+                    <div class="team-socials">
+                        <a href="https://www.linkedin.com/in/adarsh-rai-371a6a412/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/adarshcsea" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789362886520-55154e57e10f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Adarsh Rai - Project Development Lead">
+                    </div>
+                    <h4>Adarsh Rai</h4>
+                    <span>Project Development Lead</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="glass-panel team-card">
+                    <div class="team-img-wrapper">
+                        <img class="team-img" src="https://images.unsplash.com/photo-1789363449798-e44b20efd7a8?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gemini AI - Code Generation Agent">
+                    </div>
+                    <h4>Gemini AI</h4>
+                    <span>Code Generation Agent</span>
+                    <div class="team-socials">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Platform Footer -->
+    <footer class="global-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3 style="font-weight: 800; color: white; margin-bottom: 12px;">JAL SURAKSHA AI</h3>
+                    <p class="footer-brand-desc">Enterprise intelligence terminal built to intercept water-borne epidemics through advanced real-time diagnostic matrices.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Risk Engine</a></li>
+                        <li><a href="#">Water Quality</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Initiative</h4>
+                    <ul>
+                        <li><a href="#">Smart India Hackathon</a></li>
+                        <li><a href="#">National Health Mission</a></li>
+                        <li><a href="#">Jal Jeevan Mission</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Privacy &amp; Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 JalSuraksha AI Matrix. All rights reserved.</span>
+                <span>Ministry of Health &amp; Jal Shakti Initiative</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Engine Script -->
+    <script>
+        // Dark / Light Theme Toggle Engine
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const html = document.documentElement;
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                html.setAttribute('data-theme', newTheme);
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            });
+        }
+
+        // Responsive Hamburger Drawer Toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        if (hamburgerBtn && navMenu) {
+            hamburgerBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
