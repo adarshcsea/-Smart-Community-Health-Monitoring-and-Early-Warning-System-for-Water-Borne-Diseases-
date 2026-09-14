@@ -70,6 +70,9 @@
         .text-center { text-align: center; }
         .mx-auto { margin-left: auto; margin-right: auto; }
         .gradient-text { background: var(--clr-primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-primary { color: var(--clr-primary); }
+        .text-accent { color: var(--clr-accent); }
+        .accent-text { color: var(--clr-primary); }
 
         .glass-panel {
             background: var(--bg-surface);
@@ -83,33 +86,40 @@
         .glass-panel:hover { border-color: var(--border-glass-glow); }
 
         /* Navigation Mechanics */
-        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.7); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
-        .nav-container { max-width: 1280px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .main-header { position: sticky; top: 0; width: 100%; z-index: 1000; background: rgba(10, 15, 29, 0.75); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border-glass); }
+        .nav-container { max-width: 1280px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: relative; }
         .logo-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-main); }
         .logo-icon { font-size: 1.8rem; color: var(--clr-primary); }
         .logo-text { display: flex; flex-direction: column; }
-        .brand-title { font-weight: 800; font-size: 1.2rem; }
-        .brand-subtitle { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .brand-title { font-weight: 800; font-size: 1.2rem; line-height: 1.2; }
+        .brand-subtitle { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         
         .nav-menu { display: flex; align-items: center; gap: 32px; }
         .nav-links { display: flex; align-items: center; gap: 24px; }
         .nav-item { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.95rem; transition: var(--transition-smooth); cursor: pointer; }
         .nav-item:hover, .nav-item.active { color: var(--clr-primary); }
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
 
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; border: 1px solid transparent; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 24px; font-weight: 600; border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-smooth); text-decoration: none; border: 1px solid transparent; white-space: nowrap; }
         .btn-primary { background: var(--clr-primary-gradient); color: var(--text-inverse); }
         .btn-secondary { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border-color: var(--border-glass); }
         .btn-secondary:hover { border-color: var(--clr-primary); }
 
+        /* Hamburger Button */
+        .hamburger-menu { display: none; flex-direction: column; justify-content: space-around; width: 30px; height: 24px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 1001; }
+        .hamburger-menu .bar { width: 100%; height: 2.5px; background-color: var(--text-main); border-radius: 2px; transition: var(--transition-smooth); }
+
         /* Typography */
-        .page-title { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+        .page-title { font-size: clamp(1.85rem, 4vw + 0.5rem, 3rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.15; }
         .section-subtitle { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--clr-primary); letter-spacing: 2px; display: block; margin-bottom: 8px; }
         .underline { width: 60px; height: 4px; background: var(--clr-primary-gradient); border-radius: 2px; margin-bottom: 24px; }
 
         /* About Layout Elements */
-        .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 40px; }
-        .vision-img { width: 100%; height: 380px; object-fit: cover; object-position: center; display: block; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); }
-        
+        .vision-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; margin-top: 40px; }
+        .vision-img-frame { width: 100%; height: 100%; max-height: 400px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-glass); background: var(--bg-surface-solid); }
+        .vision-img { width: 100%; height: 380px; object-fit: cover; object-position: center; border-radius: var(--radius-lg); display: block; }
+        .vision-cards { display: flex; gap: 16px; }
+
         .architecture-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
         .arch-card { padding: 32px; text-align: left; }
         .arch-card i { font-size: 2.2rem; color: var(--clr-primary); margin-bottom: 20px; }
@@ -120,40 +130,98 @@
         .gov-alignment-section { background: rgba(0, 229, 255, 0.02); padding: 48px; border-radius: var(--radius-lg); border: 1px solid var(--border-glass); display: flex; gap: 32px; align-items: center; margin-top: 60px; }
         .gov-logos { display: flex; gap: 24px; font-size: 2.5rem; color: var(--text-muted); opacity: 0.7; }
 
-        /* Team Section Layout */
+        /* Team Section Layout - Exact Frame Fitting */
         .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 40px; }
-        .team-card { padding: 16px; text-align: center; overflow: hidden; }
-        .team-img-wrapper { width: 100%; height: 220px; border-radius: var(--radius-md); overflow: hidden; margin-bottom: 16px; border: 1px solid var(--border-glass); }
-        .team-img, .team-img-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s; }
-        .team-card:hover .team-img, .team-card:hover .team-img-wrapper img { transform: scale(1.08); }
+        .team-card { padding: 16px; text-align: center; overflow: hidden; display: flex; flex-direction: column; }
+        .team-img-wrapper {
+            width: 100%;
+            height: 240px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-glass);
+            background-color: var(--bg-surface-solid);
+            position: relative;
+        }
+        .team-img-wrapper img,
+        .team-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .team-card:hover .team-img-wrapper img,
+        .team-card:hover .team-img {
+            transform: scale(1.06);
+        }
         .team-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
         .team-card span { font-size: 0.8rem; color: var(--clr-primary); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 12px; }
-        .team-socials { display: flex; justify-content: center; gap: 12px; }
-        .team-socials a { color: var(--text-muted); transition: color 0.3s; font-size: 0.95rem; }
+        .team-socials { display: flex; justify-content: center; gap: 14px; margin-top: auto; padding-bottom: 4px; }
+        .team-socials a { color: var(--text-muted); transition: color 0.3s; font-size: 1rem; }
         .team-socials a:hover { color: var(--clr-primary); }
 
         /* Footer Mechanics */
         .global-footer { background: #060912; border-top: 1px solid var(--border-glass); padding: 60px 0 30px 0; margin-top: 80px; font-size: 0.9rem; }
         .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
-        .footer-brand-desc { color: var(--text-muted); margin-top: 12px; max-width: 320px; }
-        .footer-links h4 { margin-bottom: 16px; color: white; }
+        .footer-brand-desc { color: var(--text-muted); margin-top: 12px; max-width: 320px; font-size: 0.9rem; line-height: 1.6; }
+        .footer-links h4 { margin-bottom: 16px; color: white; font-size: 1rem; }
         .footer-links ul { list-style: none; }
         .footer-links li { margin-bottom: 10px; }
         .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
         .footer-links a:hover { color: var(--clr-primary); }
-        .footer-bottom { border-top: 1px solid var(--border-glass); padding-top: 20px; display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.8rem; }
+        .footer-bottom { border-top: 1px solid var(--border-glass); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem; flex-wrap: wrap; gap: 12px; }
 
-        .hamburger-menu { display: none; flex-direction: column; gap: 6px; background: transparent; border: none; cursor: pointer; width: 30px; }
-        .hamburger-menu .bar { width: 100%; height: 2px; background-color: var(--text-main); }
-
+        /* ==========================================================================
+           RESPONSIVE INTERFACE MATRIX (MOBILE, TAB & DESKTOP)
+           ========================================================================== */
         @media (max-width: 1024px) {
-            .vision-grid, .architecture-grid { grid-template-columns: 1fr; gap: 32px; }
-            .team-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr; }
+            .section { padding: 60px 0; }
+            .vision-grid { grid-template-columns: 1fr; gap: 36px; }
+            .vision-img { height: 320px; }
+            .architecture-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
         }
+
+        @media (max-width: 900px) {
+            .hamburger-menu { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: min(320px, 85vw);
+                height: 100vh;
+                background: var(--bg-surface-solid);
+                border-left: 1px solid var(--border-glass);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 80px 24px 32px 24px;
+                gap: 24px;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+                transition: right 0.35s ease;
+                z-index: 1000;
+            }
+            .nav-menu.active { right: 0; }
+            .nav-links { flex-direction: column; align-items: flex-start; gap: 20px; width: 100%; }
+            .nav-actions { width: 100%; padding-top: 20px; border-top: 1px solid var(--border-glass); justify-content: space-between; }
+        }
+
         @media (max-width: 640px) {
-            .team-grid { grid-template-columns: 1fr; }
-            .gov-alignment-section { flex-direction: column; text-align: center; }
+            .container { padding: 0 16px; }
+            .section { padding: 44px 0; }
+            .brand-subtitle { display: none; }
+            .vision-cards { flex-direction: column; gap: 12px; }
+            .vision-img { height: 240px; }
+            .architecture-grid { grid-template-columns: 1fr; gap: 16px; }
+            .arch-card { padding: 24px; }
+            .gov-alignment-section { flex-direction: column; text-align: center; padding: 28px 20px; gap: 20px; margin-top: 40px; }
+            .gov-logos { justify-content: center; font-size: 2.2rem; }
+            .team-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; gap: 20px; }
+            .team-img-wrapper { height: 280px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
         }
     </style>
 </head>
@@ -170,6 +238,12 @@
                 </div>
             </a>
 
+            <button class="hamburger-menu" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
             <nav class="nav-menu" id="navMenu">
                 <div class="nav-links">
                     <a href="index.html" class="nav-item">Home</a>
@@ -179,7 +253,7 @@
                     <a href="#" class="nav-item">Water Quality</a>
                 </div>
                 <div class="nav-actions">
-                    <button class="theme-toggle-btn" id="themeToggle" style="background:none; border:none; color:inherit; font-size:1.1rem; cursor:pointer;"><i class="fas fa-moon"></i></button>
+                    <button class="theme-toggle-btn" id="themeToggle" style="background:none; border:none; color:inherit; font-size:1.1rem; cursor:pointer;" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
                     <a href="index.html" class="btn btn-primary">Back to Hub</a>
                 </div>
             </nav>
@@ -206,7 +280,7 @@
                 <p style="color: var(--text-muted); margin-bottom: 24px;">
                     <strong>JalSuraksha AI</strong> flips the defensive paradigm. Developed as a cutting-edge technical solution for the <strong>Smart India Hackathon</strong>, our system serves as an early-stage warning grid that merges IoT telemetry with AI engines to prevent outbreaks before they start.
                 </p>
-                <div style="display: flex; gap: 16px;">
+                <div class="vision-cards">
                     <div class="glass-panel" style="padding: 16px; flex: 1;">
                         <h4 class="text-primary" style="margin-bottom: 4px;"><i class="fas fa-eye"></i> Our Vision</h4>
                         <p style="font-size: 0.85rem; color: var(--text-muted);">Zero-outbreak communities via predictive engineering.</p>
@@ -217,7 +291,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="vision-img-frame">
                 <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Laboratory UI Engineering" class="vision-img">
             </div>
         </section>
@@ -264,76 +338,4 @@
                 <i class="fas fa-tint" title="Jal Jeevan Matrix"></i>
                 <i class="fas fa-heartbeat" title="National Health Hub"></i>
                 <i class="fas fa-server" title="Digital India Architecture"></i>
-            </div>
-        </section>
-
-        <!-- SIH Project Team Showcase Grid -->
-        <section style="margin-top: 80px;">
-            <div class="text-center">
-                <span class="section-subtitle">Innovators</span>
-                <h2 style="font-size: 2rem; font-weight: 800;">The Engineering Team</h2>
-                <div class="underline mx-auto"></div>
-            </div>
-
-            <div class="team-grid">
-                <!-- Team Member 1 -->
-                <div class="glass-panel team-card">
-                    <div class="team-img-wrapper">
-                        <img class="team-img" src="https://images.unsplash.com/photo-1524117074681-31bd4de22ad3?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dheksha">
-                    </div>
-                    <h4>Dheksha</h4>
-                    <span>Team Lead</span>
-                    <div class="team-socials">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-
-                <!-- Team Member 2 -->
-                <div class="glass-panel team-card">
-                    <div class="team-img-wrapper">
-                        <img class="team-img" src="https://images.unsplash.com/photo-1789362826413-a8a81f00d67f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Chandra Prakash">
-                    </div>
-                    <h4>Chandra Prakash</h4>
-                    <span>Marketing Lead</span>
-                    <div class="team-socials">
-                        <a href="https://www.linkedin.com/in/adarsh-rai-371a6a412/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/adarshcsea" target="_blank"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-
-                <!-- Team Member 3 -->
-                <div class="glass-panel team-card">
-                    <div class="team-img-wrapper">
-                        <img class="team-img" src="https://images.unsplash.com/photo-1789362886520-55154e57e10f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Adarsh Rai">
-                    </div>
-                    <h4>Adarsh Rai</h4>
-                    <span>Project Development Lead</span>
-                    <div class="team-socials">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-
-                <!-- Team Member 4 -->
-                <div class="glass-panel team-card">
-                    <div class="team-img-wrapper">
-                        <img class="team-img" src="https://images.unsplash.com/photo-1789363449798-e44b20efd7a8?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gemini AI">
-                    </div>
-                    <h4>Gemini AI</h4>
-                    <span>Code Generation Agent</span>
-                    <div class="team-socials">
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Global Platform Footer -->
-    <footer class="global-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div
+          
